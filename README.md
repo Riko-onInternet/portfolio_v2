@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio di Andrea De Laurentis 👋
 
-## Getting Started
+Ciao! Sono Andrea De Laurentis, conosciuto online come "Riko". Sono un front-end developer appassionato di programmazione web e design moderno. Mi piace creare soluzioni innovative e dare vita a interfacce utente coinvolgenti.
 
-First, run the development server:
+## 🛠️ Competenze Tecniche
+
+- **Frontend:** React, Next.js, TypeScript, HTML5, CSS3, Tailwind CSS
+- **UI/UX:** Design Moderno, Interfacce Responsive, Animazioni Web
+- **Strumenti:** Git, VS Code, Vercel
+
+## 🚀 Caratteristiche del Portfolio
+
+Il mio portfolio è costruito come un'interfaccia desktop interattiva che simula un sistema operativo, con:
+- Animazione di boot personalizzata
+- Sistema di finestre draggable
+- Interfaccia responsive
+- Design moderno e minimalista
+
+## 🔧 Tecnologie Utilizzate
+
+- Next.js 15.1
+- React 19
+- TypeScript
+- Tailwind CSS
+- Lucide React per le icone
+
+## 💻 Come Eseguire Localmente
 
 ```bash
+# Clona il repository
+git clone https://github.com/Riko-onInternet/portfolio_v2.git
+
+# Installa le dipendenze
+npm install
+
+# Avvia il server di sviluppo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📫 Contatti
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 🌐 [Portfolio](https://andreadelau-portfolio.vercel.app/)
+- 💼 [LinkedIn](https://www.linkedin.com/in/andrea-de-laurentis/)
+- 🐱 [GitHub](https://github.com/Riko-onInternet)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📝 Licenza
 
-## Learn More
+Questo progetto è sotto licenza MIT.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+⭐️ Se ti piace questo portfolio, non esitare a lasciare una stella!

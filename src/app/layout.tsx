@@ -47,7 +47,13 @@ export const metadata: Metadata = {
   // Keywords
   keywords: [
     "Andrea De Laurentis",
+    "Andrea De Laurentis portfolio",
     "Riko De Laurentis",
+    "Riko De Laurentis portfolio",
+    "Riko",
+    "Riko portfolio",
+    "andrea de laurentis",
+    "andrea de laurentis portfolio",
     "front-end developer",
     "front-end",
     "portfolio front-end",
