@@ -1,17 +1,118 @@
 "use client";
 
-import React from "react";
+// React
+import React, { useState, useEffect } from "react";
 
+// NextUI
+import { Switch } from "@nextui-org/react";
+import { Select, SelectItem } from "@nextui-org/react";
+
+// Next
 import Image from "next/image";
+import Cookies from "js-cookie";
 
+// Assets
 const powerUp = "/img/button_power/power-up.png";
 const powerDown = "/img/button_power/power-down.png";
 
+// Components
 import { Icon } from "@/components/icon/icon";
+
+// Aggiungi questo tipo per i temi
+type Theme = "light" | "dark" | "system" | "mixed";
+
+// Aggiungi questo tipo per i wallpapers
+type Wallpaper = "1" | "2" | "3";
 
 export default function Home() {
   const [isPressing, setIsPressing] = React.useState(false);
   const [isBooting, setIsBooting] = React.useState(false);
+
+  // Inizializza skipIntro con false come valore di default
+  const [skipIntro, setSkipIntro] = useState(false);
+
+  // Stato per il tema
+  const [theme, setTheme] = useState<Theme>("mixed");
+
+  // Stato per il wallpaper
+  const [wallpaper, setWallpaper] = useState<Wallpaper>("1");
+
+  // Sposta la lettura dei cookie in un useEffect
+  useEffect(() => {
+    const savedValue = Cookies.get("skipIntro");
+    if (savedValue !== undefined) {
+      setSkipIntro(JSON.parse(savedValue));
+    }
+  }, []);
+
+  // Salva nei cookie quando skipIntro cambia
+  useEffect(() => {
+    Cookies.set("skipIntro", JSON.stringify(skipIntro), { expires: 365 });
+  }, [skipIntro]);
+
+  // Effetto per caricare il tema dai cookie
+  useEffect(() => {
+    const savedTheme = Cookies.get("theme") as Theme;
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  // Effetto per applicare il tema
+  useEffect(() => {
+    // Salva nei cookie
+    Cookies.set("theme", theme, { expires: 365 });
+
+    // Rimuovi tutte le classi dei temi
+    document.body.classList.remove("theme-light", "theme-dark", "theme-mixed");
+
+    // Se il tema è "system", usa le preferenze del sistema
+    if (theme === "system") {
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
+        ? "dark"
+        : "light";
+      document.body.classList.add(`theme-${systemTheme}`);
+      console.log(`Tema di sistema rilevato: ${systemTheme}`);
+    } else {
+      // Altrimenti usa il tema selezionato
+      document.body.classList.add(`theme-${theme}`);
+    }
+  }, [theme]);
+
+  // Aggiungi un listener per il tema di sistema
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const handleChange = () => {
+      if (theme === "system") {
+        const systemTheme = mediaQuery.matches ? "dark" : "light";
+        document.body.classList.remove(
+          "theme-light",
+          "theme-dark",
+          "theme-mixed"
+        );
+        document.body.classList.add(`theme-${systemTheme}`);
+        console.log(`Tema di sistema cambiato a: ${systemTheme}`);
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [theme]);
+
+  // Effetto per caricare il wallpaper dai cookie
+  useEffect(() => {
+    const savedWallpaper = Cookies.get("wallpaper") as Wallpaper;
+    if (savedWallpaper) {
+      setWallpaper(savedWallpaper);
+    }
+  }, []);
+
+  // Effetto per salvare il wallpaper nei cookie
+  useEffect(() => {
+    Cookies.set("wallpaper", wallpaper, { expires: 365 });
+  }, [wallpaper]);
 
   // handle press
   const handlePress = () => setIsPressing(true);
@@ -77,7 +178,7 @@ export default function Home() {
     if (sectionBoot) {
       setTimeout(() => {
         sectionBoot.style.display = "none";
-        body.style.backgroundColor = "#1671e2";
+        body.style.backgroundColor = "#006fee";
       }, 10000);
     }
 
@@ -167,7 +268,12 @@ export default function Home() {
 
       {/* Sezione Login */}
       <div
-        className="w-full h-full wallpaper absolute top-0 left-0 z-20"
+        className={`w-full h-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat ${
+          skipIntro ? "z-20" : "z-20"
+        }`}
+        style={{
+          backgroundImage: `url(/img/wallpaper/wallpaper_${wallpaper}.jpg)`,
+        }}
         id="section-login"
       >
         <div
@@ -190,7 +296,12 @@ export default function Home() {
 
       {/* Sezione Desktop */}
       <div
-        className="w-full h-full wallpaper absolute top-0 left-0 z-10"
+        className={`w-full h-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat ${
+          skipIntro ? "z-50" : "z-10"
+        }`}
+        style={{
+          backgroundImage: `url(/img/wallpaper/wallpaper_${wallpaper}.jpg)`,
+        }}
         id="section-desktop"
       >
         <div className="h-full w-full flex flex-col">
@@ -228,19 +339,99 @@ export default function Home() {
               srcIcon="/img/desktop/settings.png"
               size={80}
             >
-              <p>Contenuto Impostazioni</p>
+              <div className="p-4 pt-0">
+                <p className="text-[var(--dialog-text)] text-xl font-bold text-center mb-4">
+                  Impostazioni
+                </p>
+                <div className="flex flex-col items-center justify-center gap-4 w-full">
+                  {/* Skip intro */}
+                  <form
+                    className="flex items-center justify-between w-full bg-[var(--dialog-bg-secondary)] py-4 px-4 rounded-md cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSkipIntro(!skipIntro);
+                    }}
+                  >
+                    <span className="text-[var(--dialog-text)] select-none">
+                      Salta introduzione
+                    </span>
+                    <Switch
+                      defaultSelected={skipIntro}
+                      isSelected={skipIntro}
+                      onValueChange={setSkipIntro}
+                      aria-label="Salta introduzione"
+                    />
+                  </form>
+
+                  {/* Theme */}
+                  <div className="flex items-center justify-between w-full bg-[var(--dialog-bg-secondary)] py-4 px-4 rounded-md">
+                    <span className="text-[var(--dialog-text)] select-none">
+                      Salta introduzione
+                    </span>
+                    <Select
+                      className="w-1/3 colored-select"
+                      defaultSelectedKeys={[theme]}
+                      selectedKeys={[theme]}
+                      onSelectionChange={(keys) => {
+                        const selectedTheme = Array.from(keys)[0] as Theme;
+                        setTheme(selectedTheme);
+                      }}
+                      color="default"
+                      radius="sm"
+                    >
+                      <SelectItem key="light">Light</SelectItem>
+                      <SelectItem key="dark">Dark</SelectItem>
+                      <SelectItem key="system">System</SelectItem>
+                      <SelectItem key="mixed">Mixed</SelectItem>
+                    </Select>
+                  </div>
+
+                  <div className="flex flex-col items-center justify-center w-full bg-[var(--dialog-bg-secondary)] py-4 px-4 rounded-md">
+                    <p className="text-[var(--dialog-text)] text-xl font-bold text-center mb-4">
+                      Sfondi
+                    </p>
+                    <div className="flex justify-between items-center w-full gap-2">
+                      {["1", "2", "3"].map((num) => (
+                        <button
+                          key={num}
+                          onClick={() => setWallpaper(num as Wallpaper)}
+                          className={`relative w-full aspect-video rounded-md overflow-hidden border-2 ${
+                            wallpaper === num
+                              ? "border-blue-500"
+                              : "border-transparent"
+                          }`}
+                        >
+                          <Image
+                            src={`/img/wallpaper/wallpaper_${num}.jpg`}
+                            alt={`Sfondo ${num}`}
+                            className="object-cover"
+                            width={172}
+                            height={100}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </Icon>
 
             <Icon
               id="about_me"
               title="About me.txt"
-              srcIcon="/img/login/user.png"
+              srcIcon="/img/desktop/file_text.png"
               size={80}
             >
-              <textarea placeholder="Scrivi qualcosa..." className="w-full h-full bg-transparent border-none outline-none resize-none text-sm" defaultValue={""} />
+              <textarea
+                placeholder="Scrivi qualcosa..."
+                className="w-full h-full bg-transparent border-none outline-none resize-none text-sm"
+                defaultValue={""}
+              />
             </Icon>
           </div>
-          <div className="max-h-[50px] h-full w-full bg-[#1c1c1c] border-t border-[#404040]">
+
+          {/* Barra dei menu */}
+          <div className="max-h-[50px] h-full w-full bg-[var(--bg-barra)] border-t border-[var(--border-barra)]">
             <div className="w-full h-full px-3 py-[2px] flex items-center justify-start">
               <button className="hover:bg-zinc-800 transition-all duration-200 rounded-md size-[45px] flex justify-center items-center">
                 <Image

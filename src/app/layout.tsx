@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Portfolio | Andrea De Laurentis | Front-end Developer",
   description:
     'Ciao! Sono Andrea De Laurentis, conosciuto online come "Riko". Sono un front-end developer appassionato di programmazione web e design moderno. Vieni a scoprire le mie idee pazze e i progetti che ho realizzato.',
+  icons: {
+    icon: "https://riko-storage.sirv.com/favicon.png",
+  },
 
   // Open Graph
   openGraph: {

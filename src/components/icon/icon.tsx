@@ -218,30 +218,30 @@ export function IconContent({
       }
     >
       <div
-        className={`dialog-content bg-white rounded-lg shadow-lg w-[500px] h-[600px] overflow-hidden ${
+        className={`dialog-content bg-[var(--dialog-bg)] rounded-lg shadow-lg w-[500px] h-[600px] overflow-hidden ${
           isFullScreen ? "fullscreen-dialog rounded-none" : ""
         }`}
       >
         <div
           ref={headerRef}
-          className="flex justify-start items-center flex-row-reverse cursor-move bg-gray-100 h-[40px]"
+          className="flex justify-start items-center flex-row-reverse cursor-move bg-[var(--dialog-bg-secondary)] h-[40px]"
           onMouseDown={initDrag}
         >
           <button
             onClick={onClose}
-            className="size-[40px] transition-all duration-200 hover:bg-red-500 flex items-center justify-center"
+            className="size-[40px] text-[var(--dialog-text)] transition-all duration-200 hover:bg-red-500 hover:text-white flex items-center justify-center"
           >
             <X className="size-4" />
           </button>
           <button
             onClick={onFullScreenToggle}
-            className="size-[40px] transition-all duration-200 hover:bg-gray-200 flex items-center justify-center"
+            className="size-[40px] text-[var(--dialog-text)] transition-all duration-200 hover:bg-gray-200 flex items-center justify-center"
           >
             <Square className="size-3" />
           </button>
           <button
             onClick={onClose}
-            className="size-[40px] transition-all duration-200 hover:bg-gray-200 flex items-center justify-center"
+            className="size-[40px] text-[var(--dialog-text)] transition-all duration-200 hover:bg-gray-200 flex items-center justify-center"
           >
             <Minus className="size-4" />
           </button>

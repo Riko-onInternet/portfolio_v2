@@ -58,7 +58,7 @@ img {
 }
 
 .wallpaper {
-  background-image: url("/img/wallpaper.jpg");
+  background-image: url("/img/wallpaper/wallpaper_1.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -70,4 +70,64 @@ img {
 
 .w-dvw {
   width: 100dvw;
+}
+
+.colored-select button {
+  background-color: var(--dialog-bg) !important;
+  color: var(--dialog-text) !important;
+  & span {
+    color: var(--dialog-text) !important;
+  }
+}
+
+
+/* Theme Light */
+.theme-light {
+  --bg-barra: rgb(243, 243, 243);
+  --border-barra: rgb(200, 200, 200);
+  --dialog-bg: rgb(255, 255, 255);
+  --dialog-bg-secondary: rgb(243, 244, 246);
+  --dialog-border: rgb(200, 200, 200);
+  --dialog-text: rgb(0, 0, 0);
+}
+
+/* Theme Dark */
+.theme-dark {
+  --bg-barra: rgb(28, 28, 28);
+  --border-barra: rgb(64, 64, 64);
+  --dialog-bg: rgb(28, 28, 28);
+  --dialog-bg-secondary: rgb(38, 38, 38);
+  --dialog-border: rgb(64, 64, 64);
+  --dialog-text: rgb(255, 255, 255);
+}
+
+/* Theme Mixed */
+.theme-mixed {
+  --bg-barra: rgb(28, 28, 28);
+  --border-barra: rgb(64, 64, 64);
+  --dialog-bg: rgb(255, 255, 255);
+  --dialog-bg-secondary: rgb(243, 244, 246);
+  --dialog-border: rgb(200, 200, 200);
+  --dialog-text: rgb(0, 0, 0);
+}
+
+div[data-slot="content"] {
+  overflow: hidden !important;
+  background-color: var(--dialog-bg) !important;
+  color: var(--dialog-text) !important;
+
+  & li[role="option"] {
+    &[aria-selected="true"] {
+      background-color: var(--dialog-bg-secondary) !important;
+      color: var(--dialog-text) !important;
+    }
+    &[data-focus="true"] {
+      background-color: var(--dialog-bg-secondary) !important;
+      color: var(--dialog-text) !important;
+    }
+  }
+}
+
+.theme-dark label[aria-label="Salta introduzione"] > span {
+  background-color: var(--dialog-bg);
 }
