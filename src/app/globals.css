@@ -8,6 +8,23 @@
   -khtml-user-drag: none;
   -moz-user-drag: none;
   -o-user-drag: none;
+
+  /* Scrollbar per Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--dialog-border) transparent;
+}
+
+/* Scrollbar globale */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--dialog-border);
 }
 
 img {
@@ -79,6 +96,7 @@ img {
     color: var(--dialog-text) !important;
   }
 }
+
 
 
 /* Theme Light */

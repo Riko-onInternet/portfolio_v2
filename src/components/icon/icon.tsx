@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import { X, Square, Minus } from "lucide-react";
@@ -23,19 +23,36 @@ const useDialogsStore = () => {
       id: string;
       position: { x: number; y: number };
       isFullScreen: boolean;
+      zIndex: number;
     }[]
   >([]);
 
+  const [maxZIndex, setMaxZIndex] = useState(50);
+
   const handleOpen = (id: string) => {
     if (!openDialogs.find((dialog) => dialog.id === id)) {
+      setMaxZIndex(prev => prev + 1);
       setOpenDialogs([
         ...openDialogs,
         {
           id,
           position: { x: 50, y: 50 },
           isFullScreen: false,
+          zIndex: maxZIndex + 1
         },
       ]);
+    }
+  };
+
+  const bringToFront = (id: string) => {
+    const dialog = openDialogs.find(d => d.id === id);
+    if (dialog && dialog.zIndex !== maxZIndex) {
+      setMaxZIndex(prev => prev + 1);
+      setOpenDialogs(openDialogs.map(d => 
+        d.id === id 
+          ? { ...d, zIndex: maxZIndex + 1 }
+          : d
+      ));
     }
   };
 
@@ -67,6 +84,7 @@ const useDialogsStore = () => {
     handleClose,
     updatePosition,
     toggleFullScreen,
+    bringToFront
   };
 };
 
@@ -154,6 +172,7 @@ export function IconContent({
   // Controlla la dimensione dello schermo
   const [isSmallScreen, setIsSmallScreen] = React.useState(false);
 
+  // Controlla la dimensione dello schermo
   React.useEffect(() => {
     const checkScreenSize = () => {
       setIsSmallScreen(window.innerWidth <= 640);
@@ -168,10 +187,15 @@ export function IconContent({
   // Combina isFullScreen da props con isSmallScreen
   const isFullScreen = propIsFullScreen || isSmallScreen;
 
+  const dialogsStore = React.useContext(DialogsContext);
+  const dialog = dialogsStore?.openDialogs.find(d => d.id === id);
+
   const initDrag = (e: React.MouseEvent) => {
     if (isFullScreen) return;
 
     setIsDragging(true);
+    dialogsStore?.bringToFront(id);
+
     const rect = headerRef.current?.getBoundingClientRect();
     const dialogRect = dialogRef.current?.getBoundingClientRect();
 
@@ -180,6 +204,7 @@ export function IconContent({
       const dragY = e.clientY - rect.top;
 
       const move = (e: MouseEvent) => {
+        dialogsStore?.bringToFront(id);
         const left = e.clientX - dragX;
         const top = e.clientY - dragY;
         const newPosition = { x: left, y: top };
@@ -201,6 +226,7 @@ export function IconContent({
     }
   };
 
+
   if (!isOpen) return null;
 
   return (
@@ -213,9 +239,11 @@ export function IconContent({
               position: "fixed",
               left: `${position.x}px`,
               top: `${position.y}px`,
+              zIndex: dialog?.zIndex || 50,
             }
           : undefined
       }
+      onMouseDown={() => dialogsStore?.bringToFront(id)}
     >
       <div
         className={`dialog-content bg-[var(--dialog-bg)] rounded-lg shadow-lg w-[500px] h-[600px] overflow-hidden ${
@@ -235,13 +263,13 @@ export function IconContent({
           </button>
           <button
             onClick={onFullScreenToggle}
-            className="size-[40px] text-[var(--dialog-text)] transition-all duration-200 hover:bg-gray-200 flex items-center justify-center"
+            className="size-[40px] text-[var(--dialog-text)] transition-all duration-200 hover:bg-[var(--dialog-bg)] flex items-center justify-center"
           >
             <Square className="size-3" />
           </button>
           <button
             onClick={onClose}
-            className="size-[40px] text-[var(--dialog-text)] transition-all duration-200 hover:bg-gray-200 flex items-center justify-center"
+            className="size-[40px] text-[var(--dialog-text)] transition-all duration-200 hover:bg-[var(--dialog-bg)] flex items-center justify-center"
           >
             <Minus className="size-4" />
           </button>

@@ -24,6 +24,8 @@ type Theme = "light" | "dark" | "system" | "mixed";
 // Aggiungi questo tipo per i wallpapers
 type Wallpaper = "1" | "2" | "3";
 
+import { aboutContent } from '@/data/about';
+
 export default function Home() {
   const [isPressing, setIsPressing] = React.useState(false);
   const [isBooting, setIsBooting] = React.useState(false);
@@ -36,6 +38,9 @@ export default function Home() {
 
   // Stato per il wallpaper
   const [wallpaper, setWallpaper] = useState<Wallpaper>("1");
+
+  // Aggiungi questo stato all'inizio del componente
+  const [aboutText, setAboutText] = useState(aboutContent);
 
   // Sposta la lettura dei cookie in un useEffect
   useEffect(() => {
@@ -114,6 +119,11 @@ export default function Home() {
     Cookies.set("wallpaper", wallpaper, { expires: 365 });
   }, [wallpaper]);
 
+  // Aggiungi questo effetto per salvare il testo nei cookie
+  useEffect(() => {
+    Cookies.set("aboutText", aboutText, { expires: 365 });
+  }, [aboutText]);
+
   // handle press
   const handlePress = () => setIsPressing(true);
 
@@ -178,7 +188,7 @@ export default function Home() {
     if (sectionBoot) {
       setTimeout(() => {
         sectionBoot.style.display = "none";
-        body.style.backgroundColor = "#006fee";
+        body.style.backgroundColor = "#1c1c1c";
       }, 10000);
     }
 
@@ -423,9 +433,11 @@ export default function Home() {
               size={80}
             >
               <textarea
+                value={aboutText}
+                onChange={(e) => setAboutText(e.target.value)}
                 placeholder="Scrivi qualcosa..."
-                className="w-full h-full bg-transparent border-none outline-none resize-none text-sm"
-                defaultValue={""}
+                spellCheck={false}
+                className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
               />
             </Icon>
           </div>
