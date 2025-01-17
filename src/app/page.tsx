@@ -10,7 +10,7 @@ import { Select, SelectItem } from "@nextui-org/react";
 // Next
 import Image from "next/image";
 import Cookies from "js-cookie";
-
+import Link from "next/link";
 // Assets
 const powerUp = "/img/button_power/power-up.png";
 const powerDown = "/img/button_power/power-down.png";
@@ -24,7 +24,41 @@ type Theme = "light" | "dark" | "system" | "mixed";
 // Aggiungi questo tipo per i wallpapers
 type Wallpaper = "1" | "2" | "3";
 
-import { aboutContent } from '@/data/about';
+import { aboutContent } from "@/data/about";
+
+// database links
+const schoolProjects = [
+  {
+    title: "Replica Reazer",
+    link: "https://github.com/Riko-onInternet/razer",
+    icon: "/img/desktop/chrome.png",
+  },
+  {
+    title: "Soul Burger",
+    link: "https://github.com/Riko-onInternet/soul_kitchen",
+    icon: "/img/desktop/chrome.png",
+  },
+  {
+    title: "Untimed",
+    link: "https://github.com/Riko-onInternet/untimed",
+    icon: "/img/desktop/chrome.png",
+  },
+  {
+    title: "Collina d'oro",
+    link: "https://github.com/Riko-onInternet/collinadoro",
+    icon: "/img/desktop/chrome.png",
+  },
+  {
+    title: "Afrodite",
+    link: "https://github.com/Riko-onInternet/afrodite",
+    icon: "/img/desktop/chrome.png",
+  },
+  {
+    title: "The Living Tombstone",
+    link: "https://github.com/Riko-onInternet/thelivingtombstone",
+    icon: "/img/desktop/chrome.png",
+  },
+];
 
 export default function Home() {
   const [isPressing, setIsPressing] = React.useState(false);
@@ -316,15 +350,34 @@ export default function Home() {
       >
         <div className="h-full w-full flex flex-col">
           <div className="h-full w-full grid direction-grid grid-cols-4 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 grid-flow-col items-start justify-center p-4 sm:p-6">
+            {/* Progetti scolastici */}
             <Icon
               id="progetti_scolastici"
               title="Progetti Scolastici"
               srcIcon="/img/desktop/folder.png"
               size={80}
             >
-              <p>Contenuto Progetti Scolastici</p>
+              <div className="grid grid-cols-4 items-start justify-start text-[var(--dialog-text)]">
+                {schoolProjects.map((project) => (
+                  <Link
+                    key={project.title}
+                    href={project.link}
+                    target="_blank"
+                    className="flex flex-col items-center justify-center gap-2 p-2 hover:bg-[var(--dialog-bg-secondary)] rounded-md transition-all duration-200"
+                  >
+                    <Image
+                      src={project.icon}
+                      alt={project.title}
+                      width={80}
+                      height={80}
+                    />
+                    <p className="text-sm text-center">{project.title}</p>
+                  </Link>
+                ))}
+              </div>
             </Icon>
 
+            {/* Progetti in corso */}
             <Icon
               id="progetti_in_corso"
               title="Progetti in corso"
@@ -334,6 +387,7 @@ export default function Home() {
               <p>Contenuto Progetti in corso</p>
             </Icon>
 
+            {/* Progetti conclusi */}
             <Icon
               id="progetti_conclusi"
               title="Progetti conclusi"
@@ -343,9 +397,10 @@ export default function Home() {
               <p>Contenuto Progetti conclusi</p>
             </Icon>
 
+            {/* Settings */}
             <Icon
-              id="impostazioni"
-              title="Impostazioni"
+              id="settings"
+              title="Settings"
               srcIcon="/img/desktop/settings.png"
               size={80}
             >
@@ -426,6 +481,7 @@ export default function Home() {
               </div>
             </Icon>
 
+            {/* About me */}
             <Icon
               id="about_me"
               title="About me.txt"
