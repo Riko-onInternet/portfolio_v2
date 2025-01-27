@@ -5,7 +5,8 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-import { DialogsProvider } from "@/components/icon/icon";
+import { DialogsProvider } from "@/components/browser/browser";
+import { DialogsProvider as IconDialogsProvider } from "@/components/icon/icon";
 
 export const metadata: Metadata = {
   // Metadata
@@ -92,7 +93,9 @@ export default function RootLayout({
   return (
     <html lang="it">
       <body className={inter.className} style={{ backgroundColor: "#000" }}>
-        <DialogsProvider>{children}</DialogsProvider>
+        <DialogsProvider>
+          <IconDialogsProvider>{children}</IconDialogsProvider>
+        </DialogsProvider>
       </body>
     </html>
   );

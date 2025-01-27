@@ -10,13 +10,15 @@ import { Select, SelectItem } from "@nextui-org/react";
 // Next
 import Image from "next/image";
 import Cookies from "js-cookie";
-import Link from "next/link";
+// import Link from "next/link";
+
 // Assets
 const powerUp = "/img/button_power/power-up.png";
 const powerDown = "/img/button_power/power-down.png";
 
 // Components
 import { Icon } from "@/components/icon/icon";
+import { Browser } from "@/components/browser/browser";
 
 // Aggiungi questo tipo per i temi
 type Theme = "light" | "dark" | "system" | "mixed";
@@ -30,32 +32,38 @@ import { aboutContent } from "@/data/about";
 const schoolProjects = [
   {
     title: "Replica Reazer",
-    link: "https://github.com/Riko-onInternet/razer",
+    linkGithub: "https://github.com/Riko-onInternet/razer",
+    linkWebsite: "https://razer-wine.vercel.app/",
     icon: "/img/desktop/chrome.png",
   },
   {
     title: "Soul Burger",
-    link: "https://github.com/Riko-onInternet/soul_kitchen",
+    linkGithub: "https://github.com/Riko-onInternet/soul_kitchen",
+    linkWebsite: "https://soul-kitchen-theta.vercel.app/",
     icon: "/img/desktop/chrome.png",
   },
   {
     title: "Untimed",
-    link: "https://github.com/Riko-onInternet/untimed",
+    linkGithub: "https://github.com/Riko-onInternet/untimed",
+    linkWebsite: "https://untimed.vercel.app/",
     icon: "/img/desktop/chrome.png",
   },
   {
     title: "Collina d'oro",
-    link: "https://github.com/Riko-onInternet/collinadoro",
+    linkGithub: "https://github.com/Riko-onInternet/collinadoro",
+    linkWebsite: "https://collinadoro.vercel.app/",
     icon: "/img/desktop/chrome.png",
   },
   {
     title: "Afrodite",
-    link: "https://github.com/Riko-onInternet/afrodite",
+    linkGithub: "https://github.com/Riko-onInternet/afrodite",
+    linkWebsite: "https://afrodite-mu.vercel.app/",
     icon: "/img/desktop/chrome.png",
   },
   {
     title: "The Living Tombstone",
-    link: "https://github.com/Riko-onInternet/thelivingtombstone",
+    linkGithub: "https://github.com/Riko-onInternet/thelivingtombstone",
+    linkWebsite: "https://thelivingtombstone.vercel.app/",
     icon: "/img/desktop/chrome.png",
   },
 ];
@@ -359,20 +367,14 @@ export default function Home() {
             >
               <div className="grid grid-cols-4 items-start justify-start text-[var(--dialog-text)]">
                 {schoolProjects.map((project) => (
-                  <Link
+                  <Browser
                     key={project.title}
-                    href={project.link}
-                    target="_blank"
-                    className="flex flex-col items-center justify-center gap-2 p-2 hover:bg-[var(--dialog-bg-secondary)] rounded-md transition-all duration-200"
-                  >
-                    <Image
-                      src={project.icon}
-                      alt={project.title}
-                      width={80}
-                      height={80}
-                    />
-                    <p className="text-sm text-center">{project.title}</p>
-                  </Link>
+                    id={project.title}
+                    title={project.title}
+                    srcBrowser={project.icon}
+                    size={80}
+                    defaultUrl={project.linkWebsite}
+                  />
                 ))}
               </div>
             </Icon>
