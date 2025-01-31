@@ -238,10 +238,6 @@ export function Browser({
     }
   };
 
-  const handleRefresh = () => {
-    setCurrentUrl((prev) => prev);
-  };
-
   return (
     <>
       <div
@@ -310,7 +306,7 @@ export function Browser({
               </div>
             </div>
 
-            <div className="w-full flex flex-row items-center justify-center px-2">
+            <div className="w-full flex flex-row items-center justify-center px-2 py-2 bg-[var(--dialog-bg-secondary)]">
               {/* Pulsanti di navigazione */}
               <div className="flex items-center px-2 gap-2">
                 <button
@@ -327,12 +323,6 @@ export function Browser({
                 >
                   <ArrowRight className="size-4" />
                 </button>
-                <button
-                  onClick={handleRefresh}
-                  className="size-6 rounded-full bg-[var(--dialog-border)] hover:opacity-80 flex items-center justify-center text-[var(--dialog-text)]"
-                >
-                  <RotateCcw className="size-4" />
-                </button>
               </div>
 
               {/* Barra degli indirizzi interattiva */}
@@ -348,12 +338,12 @@ export function Browser({
                   value={urlInput}
                   onChange={(e) => setUrlInput(e.target.value)}
                   onFocus={(e) => e.target.select()}
-                  className="w-full bg-[var(--dialog-bg-secondary)] rounded-md px-3 py-1 my-1 text-sm text-[var(--dialog-text)] outline-none border border-transparent focus:border-blue-500"
+                  className="w-full bg-[var(--dialog-bg)] rounded-md px-3 py-1 text-sm text-[var(--dialog-text)] outline-none border border-transparent focus:border-blue-500"
                   placeholder="Cerca o inserisci un indirizzo web"
                 />
               </form>
 
-              <div className="flex flex-row items-center justify-center">
+              <div className="flex flex-row items-center justify-center px-2">
                 <Tooltip
                   content={
                     <>
@@ -361,9 +351,8 @@ export function Browser({
                         Info browser
                       </p>
                       <p className="text-sm text-[var(--dialog-text)]">
-                        Per un fatto di protezzione dei siti web, il browser
-                        non permette di navigare sui vari domini. ma solo sui
-                        siti del portale.
+                        Per un fatto di protezzione dei siti web, il browser non
+                        permette di navigare sui vari domini in modo dinamico.
                       </p>
                     </>
                   }
