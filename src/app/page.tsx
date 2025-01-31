@@ -35,38 +35,61 @@ const schoolProjects = [
     linkGithub: "https://github.com/Riko-onInternet/razer",
     linkWebsite: "https://razer-wine.vercel.app/",
     icon: "/img/desktop/chrome.png",
+    id: "replica_reazer",
   },
   {
-    title: "Soul Burger",
+    title: "Soul Kitchen",
     linkGithub: "https://github.com/Riko-onInternet/soul_kitchen",
     linkWebsite: "https://soul-kitchen-theta.vercel.app/",
     icon: "/img/desktop/chrome.png",
+    id: "soul_kitchen",
   },
   {
     title: "Untimed",
     linkGithub: "https://github.com/Riko-onInternet/untimed",
     linkWebsite: "https://untimed.vercel.app/",
     icon: "/img/desktop/chrome.png",
+    id: "untimed",
   },
   {
     title: "Collina d'oro",
     linkGithub: "https://github.com/Riko-onInternet/collinadoro",
     linkWebsite: "https://collinadoro.vercel.app/",
     icon: "/img/desktop/chrome.png",
+    id: "collina_doro",
   },
   {
     title: "Afrodite",
     linkGithub: "https://github.com/Riko-onInternet/afrodite",
     linkWebsite: "https://afrodite-mu.vercel.app/",
     icon: "/img/desktop/chrome.png",
+    id: "afrodite",
   },
   {
     title: "The Living Tombstone",
     linkGithub: "https://github.com/Riko-onInternet/thelivingtombstone",
     linkWebsite: "https://thelivingtombstone.vercel.app/",
     icon: "/img/desktop/chrome.png",
+    id: "tlt",
   },
 ];
+
+const continuedProject = [
+  {
+    id: "unknown",
+    title: "unKnown",
+    linkGithub: "",
+    linkWebsite: "",
+    icon: "/img/desktop/chrome.png",
+  },
+  {
+    id: "riko_ui",
+    title: "Riko_UI",
+    linkGithub: "",
+    linkWebsite: "",
+    icon: "/img/desktop/chrome.png",
+  }
+]
 
 export default function Home() {
   const [isPressing, setIsPressing] = React.useState(false);
@@ -364,15 +387,39 @@ export default function Home() {
               size={80}
             >
               <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
-                {schoolProjects.map((project) => (
-                  <Browser
-                    key={project.title}
-                    id={project.title}
-                    title={project.title}
-                    srcBrowser={project.icon}
+                {/* Cartelle dei proggetti */}
+                {schoolProjects.map((school) => (
+                  <Icon
+                    id={school.id}
+                    title={school.title}
+                    srcIcon="/img/desktop/folder.png"
                     size={80}
-                    defaultUrl={project.linkWebsite}
-                  />
+                    className="!text-[var(--dialog-text)] w-[80px]"
+                    key={school.title}
+                  >
+                    <div className="flex flex-row flex-wrap items-start gap-4">
+                      <a
+                        href={school.linkGithub}
+                        className="flex flex-col items-center justify-start w-[80px] text-center h-[120px]"
+                        target="_blank"
+                      >
+                        <Image
+                          src="/img/desktop/chrome.png"
+                          width={80}
+                          height={80}
+                          alt="github"
+                        />
+                        <p className="text-sm line-clamp-2 h-full">GitHub Link</p>
+                      </a>
+                      <Browser
+                        id={school.title}
+                        title={school.title}
+                        srcBrowser={school.icon}
+                        defaultUrl={school.linkWebsite}
+                        size={80}
+                      />
+                    </div>
+                  </Icon>
                 ))}
               </div>
             </Icon>
@@ -384,18 +431,52 @@ export default function Home() {
               srcIcon="/img/desktop/folder.png"
               size={80}
             >
-              <div className="">Contenuto Progetti in corso</div>
+              <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
+              {continuedProject.map((soon) => (
+                  <Icon
+                    id={soon.id}
+                    title={soon.title}
+                    srcIcon="/img/desktop/folder.png"
+                    size={80}
+                    className="!text-[var(--dialog-text)] w-[80px]"
+                    key={soon.title}
+                  >
+                    <div className="flex flex-row flex-wrap items-start gap-4">
+                      <a
+                        href={soon.linkGithub}
+                        className="flex flex-col items-center justify-start w-[80px] text-center h-[120px]"
+                        target="_blank"
+                      >
+                        <Image
+                          src="/img/desktop/chrome.png"
+                          width={80}
+                          height={80}
+                          alt="github"
+                        />
+                        <p className="text-sm line-clamp-2 h-full">GitHub Link</p>
+                      </a>
+                      <Browser
+                        id={soon.title}
+                        title={soon.title}
+                        srcBrowser={soon.icon}
+                        defaultUrl={soon.linkWebsite}
+                        size={80}
+                      />
+                    </div>
+                  </Icon>
+                ))}
+              </div>
             </Icon>
 
             {/* Progetti conclusi */}
-            <Icon
+            {/* <Icon
               id="progetti_conclusi"
               title="Progetti conclusi"
               srcIcon="/img/desktop/folder.png"
               size={80}
             >
               <p>Contenuto Progetti conclusi</p>
-            </Icon>
+            </Icon> */}
 
             {/* Settings */}
             <Icon
@@ -431,7 +512,7 @@ export default function Home() {
                   {/* Theme */}
                   <div className="flex items-center justify-between w-full bg-[var(--dialog-bg-secondary)] py-4 px-4 rounded-md">
                     <span className="text-[var(--dialog-text)] select-none">
-                      Salta introduzione
+                      Tema
                     </span>
                     <Select
                       className="w-1/3 colored-select"

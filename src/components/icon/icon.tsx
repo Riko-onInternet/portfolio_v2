@@ -14,6 +14,7 @@ interface IconProps {
   srcIcon: string;
   size: number;
   children: React.ReactNode;
+  className?: string;
 }
 
 // Stato globale per le finestre aperte
@@ -99,7 +100,7 @@ export function DialogsProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function Icon({ id, title, srcIcon, size, children }: IconProps) {
+export function Icon({ id, title, srcIcon, size, children, className }: IconProps) {
   const dialogsStore = React.useContext(DialogsContext);
   if (!dialogsStore)
     throw new Error("Icon must be used within DialogsProvider");
@@ -121,7 +122,7 @@ export function Icon({ id, title, srcIcon, size, children }: IconProps) {
           className="size-full drop-shadow-xl shadow-black "
         />
         <p
-          className="text-white text-sm text-center line-clamp-2 drop-shadow-lg shadow-black"
+          className={`text-white text-sm text-center line-clamp-2 drop-shadow-lg shadow-black ${className}`}
           title={title}
         >
           {title}
