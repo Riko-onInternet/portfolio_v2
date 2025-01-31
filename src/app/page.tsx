@@ -348,9 +348,7 @@ export default function Home() {
 
       {/* Sezione Desktop */}
       <div
-        className={`w-full h-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat ${
-          skipIntro ? "z-50" : "z-10"
-        }`}
+        className={`w-full h-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat z-50`}
         style={{
           backgroundImage: `url(/img/wallpaper/wallpaper_${wallpaper}.jpg)`,
         }}
@@ -365,7 +363,7 @@ export default function Home() {
               srcIcon="/img/desktop/folder.png"
               size={80}
             >
-              <div className="grid grid-cols-4 items-start justify-start text-[var(--dialog-text)]">
+              <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
                 {schoolProjects.map((project) => (
                   <Browser
                     key={project.title}
@@ -386,7 +384,7 @@ export default function Home() {
               srcIcon="/img/desktop/folder.png"
               size={80}
             >
-              <p>Contenuto Progetti in corso</p>
+              <div className="">Contenuto Progetti in corso</div>
             </Icon>
 
             {/* Progetti conclusi */}

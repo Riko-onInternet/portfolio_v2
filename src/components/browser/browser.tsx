@@ -3,7 +3,17 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { X, Square, Minus, ArrowLeft, ArrowRight, RotateCcw } from "lucide-react";
+import {
+  X,
+  Square,
+  Minus,
+  ArrowLeft,
+  ArrowRight,
+  RotateCcw,
+  Info,
+} from "lucide-react";
+import { Tooltip } from "@heroui/tooltip";
+
 import "./style.css";
 
 interface BrowserProps {
@@ -30,28 +40,28 @@ const useDialogsStore = () => {
 
   const handleOpen = (id: string) => {
     if (!openDialogs.find((dialog) => dialog.id === id)) {
-      setMaxZIndex(prev => prev + 1);
+      setMaxZIndex((prev) => prev + 1);
       setOpenDialogs([
         ...openDialogs,
         {
           id,
           position: { x: 50, y: 50 },
           isFullScreen: false,
-          zIndex: maxZIndex + 1
+          zIndex: maxZIndex + 1,
         },
       ]);
     }
   };
 
   const bringToFront = (id: string) => {
-    const dialog = openDialogs.find(d => d.id === id);
+    const dialog = openDialogs.find((d) => d.id === id);
     if (dialog && dialog.zIndex !== maxZIndex) {
-      setMaxZIndex(prev => prev + 1);
-      setOpenDialogs(openDialogs.map(d => 
-        d.id === id 
-          ? { ...d, zIndex: maxZIndex + 1 }
-          : d
-      ));
+      setMaxZIndex((prev) => prev + 1);
+      setOpenDialogs(
+        openDialogs.map((d) =>
+          d.id === id ? { ...d, zIndex: maxZIndex + 1 } : d
+        )
+      );
     }
   };
 
@@ -83,11 +93,13 @@ const useDialogsStore = () => {
     handleClose,
     updatePosition,
     toggleFullScreen,
-    bringToFront
+    bringToFront,
   };
 };
 
-const DialogsContext = React.createContext<ReturnType<typeof useDialogsStore> | null>(null);
+const DialogsContext = React.createContext<ReturnType<
+  typeof useDialogsStore
+> | null>(null);
 
 export function DialogsProvider({ children }: { children: React.ReactNode }) {
   const store = useDialogsStore();
@@ -96,9 +108,17 @@ export function DialogsProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function Browser({ id, title, srcBrowser, size, defaultUrl = "https://www.google.com", children }: BrowserProps) {
+export function Browser({
+  id,
+  title,
+  srcBrowser,
+  size,
+  defaultUrl = "https://www.google.com",
+  children,
+}: BrowserProps) {
   const dialogsStore = React.useContext(DialogsContext);
-  if (!dialogsStore) throw new Error("Browser must be used within DialogsProvider");
+  if (!dialogsStore)
+    throw new Error("Browser must be used within DialogsProvider");
 
   const dialog = dialogsStore.openDialogs.find((d) => d.id === id);
   const [isSmallScreen, setIsSmallScreen] = React.useState(false);
@@ -164,17 +184,20 @@ export function Browser({ id, title, srcBrowser, size, defaultUrl = "https://www
     try {
       // Rimuovi spazi iniziali e finali
       let formattedUrl = url.trim();
-      
+
       // Se è solo un dominio (es: google.it), aggiungi https://www
       if (/^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(formattedUrl)) {
         formattedUrl = `https://www.${formattedUrl}`;
       }
       // Se inizia con www., aggiungi https://
-      else if (formattedUrl.startsWith('www.')) {
+      else if (formattedUrl.startsWith("www.")) {
         formattedUrl = `https://${formattedUrl}`;
       }
       // Se non ha http:// o https://, aggiungilo
-      else if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+      else if (
+        !formattedUrl.startsWith("http://") &&
+        !formattedUrl.startsWith("https://")
+      ) {
         formattedUrl = `https://${formattedUrl}`;
       }
 
@@ -184,14 +207,16 @@ export function Browser({ id, title, srcBrowser, size, defaultUrl = "https://www
       setIsLoading(true);
       setCurrentUrl(formattedUrl);
       setUrlInput(formattedUrl);
-      
+
       // Aggiorna la cronologia
       const newHistory = [...history.slice(0, historyIndex + 1), formattedUrl];
       setHistory(newHistory);
       setHistoryIndex(newHistory.length - 1);
     } catch (e) {
       // Se l'URL non è valido, fai una ricerca su Google
-      const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(url)}`;
+      const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(
+        url
+      )}`;
       setCurrentUrl(searchUrl);
       setUrlInput(searchUrl);
     }
@@ -199,7 +224,7 @@ export function Browser({ id, title, srcBrowser, size, defaultUrl = "https://www
 
   const handleBack = () => {
     if (historyIndex > 0) {
-      setHistoryIndex(prev => prev - 1);
+      setHistoryIndex((prev) => prev - 1);
       setCurrentUrl(history[historyIndex - 1]);
       setUrlInput(history[historyIndex - 1]);
     }
@@ -207,14 +232,14 @@ export function Browser({ id, title, srcBrowser, size, defaultUrl = "https://www
 
   const handleForward = () => {
     if (historyIndex < history.length - 1) {
-      setHistoryIndex(prev => prev + 1);
+      setHistoryIndex((prev) => prev + 1);
       setCurrentUrl(history[historyIndex + 1]);
       setUrlInput(history[historyIndex + 1]);
     }
   };
 
   const handleRefresh = () => {
-    setCurrentUrl(prev => prev);
+    setCurrentUrl((prev) => prev);
   };
 
   return (
@@ -259,51 +284,9 @@ export function Browser({ id, title, srcBrowser, size, defaultUrl = "https://www
           >
             <div
               ref={headerRef}
-              className="flex justify-between items-center bg-[var(--dialog-bg-secondary)] h-[40px]"
+              className="flex justify-end items-center bg-[var(--dialog-bg-secondary)] h-[40px]"
               onMouseDown={initDrag}
             >
-              {/* Pulsanti di navigazione */}
-              <div className="flex items-center px-2 gap-2">
-                <button 
-                  onClick={handleBack}
-                  disabled={historyIndex === 0}
-                  className="size-6 rounded-full bg-[var(--dialog-border)] hover:opacity-80 flex items-center justify-center text-[var(--dialog-text)] disabled:opacity-50"
-                >
-                  <ArrowLeft className="size-4" />
-                </button>
-                <button 
-                  onClick={handleForward}
-                  disabled={historyIndex === history.length - 1}
-                  className="size-6 rounded-full bg-[var(--dialog-border)] hover:opacity-80 flex items-center justify-center text-[var(--dialog-text)] disabled:opacity-50"
-                >
-                  <ArrowRight className="size-4" />
-                </button>
-                <button 
-                  onClick={handleRefresh}
-                  className="size-6 rounded-full bg-[var(--dialog-border)] hover:opacity-80 flex items-center justify-center text-[var(--dialog-text)]"
-                >
-                  <RotateCcw className="size-4" />
-                </button>
-              </div>
-
-              {/* Barra degli indirizzi interattiva */}
-              <form 
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  navigateTo(urlInput);
-                }}
-                className="flex-1 mx-2"
-              >
-                <input
-                  type="text"
-                  value={urlInput}
-                  onChange={(e) => setUrlInput(e.target.value)}
-                  onFocus={(e) => e.target.select()}
-                  className="w-full bg-[var(--dialog-bg)] rounded-md px-3 py-1 text-sm text-[var(--dialog-text)] outline-none border border-transparent focus:border-blue-500"
-                  placeholder="Cerca o inserisci un indirizzo web"
-                />
-              </form>
-
               {/* Pulsanti di controllo finestra */}
               <div className="flex">
                 <button
@@ -326,15 +309,81 @@ export function Browser({ id, title, srcBrowser, size, defaultUrl = "https://www
                 </button>
               </div>
             </div>
+
+            <div className="w-full flex flex-row items-center justify-center px-2">
+              {/* Pulsanti di navigazione */}
+              <div className="flex items-center px-2 gap-2">
+                <button
+                  onClick={handleBack}
+                  disabled={historyIndex === 0}
+                  className="size-6 rounded-full bg-[var(--dialog-border)] hover:opacity-80 flex items-center justify-center text-[var(--dialog-text)] disabled:opacity-50"
+                >
+                  <ArrowLeft className="size-4" />
+                </button>
+                <button
+                  onClick={handleForward}
+                  disabled={historyIndex === history.length - 1}
+                  className="size-6 rounded-full bg-[var(--dialog-border)] hover:opacity-80 flex items-center justify-center text-[var(--dialog-text)] disabled:opacity-50"
+                >
+                  <ArrowRight className="size-4" />
+                </button>
+                <button
+                  onClick={handleRefresh}
+                  className="size-6 rounded-full bg-[var(--dialog-border)] hover:opacity-80 flex items-center justify-center text-[var(--dialog-text)]"
+                >
+                  <RotateCcw className="size-4" />
+                </button>
+              </div>
+
+              {/* Barra degli indirizzi interattiva */}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  navigateTo(urlInput);
+                }}
+                className="flex-1 mx-2"
+              >
+                <input
+                  type="text"
+                  value={urlInput}
+                  onChange={(e) => setUrlInput(e.target.value)}
+                  onFocus={(e) => e.target.select()}
+                  className="w-full bg-[var(--dialog-bg-secondary)] rounded-md px-3 py-1 my-1 text-sm text-[var(--dialog-text)] outline-none border border-transparent focus:border-blue-500"
+                  placeholder="Cerca o inserisci un indirizzo web"
+                />
+              </form>
+
+              <div className="flex flex-row items-center justify-center">
+                <Tooltip
+                  content={
+                    <>
+                      <p className="text-sm text-[var(--dialog-text)] font-medium">
+                        Info browser
+                      </p>
+                      <p className="text-sm text-[var(--dialog-text)]">
+                        Per un fatto di protezzione dei siti web, il browser
+                        non permette di navigare sui vari domini. ma solo sui
+                        siti del portale.
+                      </p>
+                    </>
+                  }
+                  placement="bottom-end"
+                  className="max-w-[200px] text-start"
+                >
+                  <Info className="size-4" />
+                </Tooltip>
+              </div>
+            </div>
+
             <div className="content-dialog-browser overflow-hidden relative">
               {isLoading && (
-                <div className="absolute top-0 left-0 w-full h-1 bg-[var(--dialog-bg)]">
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-[var(--dialog-bg)]">
                   <div className="h-full bg-blue-500 animate-loading-bar"></div>
                 </div>
               )}
               <iframe
                 src={currentUrl}
-                className="w-full h-full border-none"
+                className="w-full h-[calc(100%-38px)] border-none"
                 sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 referrerPolicy="no-referrer"

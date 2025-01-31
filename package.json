@@ -6,9 +6,13 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "audit": "npm audit"
   },
   "dependencies": {
+    "@heroui/system": "^2.4.7",
+    "@heroui/theme": "^2.4.6",
+    "@heroui/tooltip": "^2.2.8",
     "@nextui-org/react": "^2.6.11",
     "@types/js-cookie": "^3.0.6",
     "framer-motion": "^11.18.0",

@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-import { X, Square, Minus } from "lucide-react";
+import { X, Square, Minus, BringToFront } from "lucide-react";
 
 import "./style.css";
 
