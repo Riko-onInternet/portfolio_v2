@@ -26,7 +26,9 @@ type Theme = "light" | "dark" | "system" | "mixed";
 // Aggiungi questo tipo per i wallpapers
 type Wallpaper = "1" | "2" | "3";
 
+// text content
 import { aboutContent } from "@/data/about";
+import { reazerReplica } from "@/data/reazer_replica";
 
 // database links
 const schoolProjects = [
@@ -36,6 +38,8 @@ const schoolProjects = [
     linkWebsite: "https://razer-wine.vercel.app/",
     icon: "/img/desktop/chrome.png",
     id: "replica_reazer",
+    idText: "text-reazer_replica",
+    textValue: reazerReplica,
   },
   {
     title: "Soul Kitchen",
@@ -43,6 +47,8 @@ const schoolProjects = [
     linkWebsite: "https://soul-kitchen-theta.vercel.app/",
     icon: "/img/desktop/chrome.png",
     id: "soul_kitchen",
+    idText: "text-soul_kitchen",
+    textValue: "",
   },
   {
     title: "Untimed",
@@ -50,6 +56,8 @@ const schoolProjects = [
     linkWebsite: "https://untimed.vercel.app/",
     icon: "/img/desktop/chrome.png",
     id: "untimed",
+    idText: "text-untimed",
+    textValue: "",
   },
   {
     title: "Collina d'oro",
@@ -57,6 +65,8 @@ const schoolProjects = [
     linkWebsite: "https://collinadoro.vercel.app/",
     icon: "/img/desktop/chrome.png",
     id: "collina_doro",
+    idText: "text-collina_doro",
+    textValue: "",
   },
   {
     title: "Afrodite",
@@ -64,6 +74,8 @@ const schoolProjects = [
     linkWebsite: "https://afrodite-mu.vercel.app/",
     icon: "/img/desktop/chrome.png",
     id: "afrodite",
+    idText: "text-afrodite",
+    textValue: "",
   },
   {
     title: "The Living Tombstone",
@@ -71,6 +83,8 @@ const schoolProjects = [
     linkWebsite: "https://thelivingtombstone.vercel.app/",
     icon: "/img/desktop/chrome.png",
     id: "tlt",
+    idText: "text-tlt",
+    textValue: "",
   },
 ];
 
@@ -88,8 +102,8 @@ const continuedProject = [
     linkGithub: "",
     linkWebsite: "",
     icon: "/img/desktop/chrome.png",
-  }
-]
+  },
+];
 
 export default function Home() {
   const [isPressing, setIsPressing] = React.useState(false);
@@ -104,7 +118,7 @@ export default function Home() {
   // Stato per il wallpaper
   const [wallpaper, setWallpaper] = useState<Wallpaper>("1");
 
-  // Aggiungi questo stato all'inizio del componente
+  // Stato per il testo di about
   const [aboutText, setAboutText] = useState(aboutContent);
 
   // Sposta la lettura dei cookie in un useEffect
@@ -371,7 +385,7 @@ export default function Home() {
 
       {/* Sezione Desktop */}
       <div
-        className={`w-full h-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat z-50`}
+        className={`w-full h-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat z-10`}
         style={{
           backgroundImage: `url(/img/wallpaper/wallpaper_${wallpaper}.jpg)`,
         }}
@@ -385,6 +399,7 @@ export default function Home() {
               title="Progetti Scolastici"
               srcIcon="/img/desktop/folder.png"
               size={80}
+              className="text-white"
             >
               <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
                 {/* Cartelle dei proggetti */}
@@ -409,7 +424,9 @@ export default function Home() {
                           height={80}
                           alt="github"
                         />
-                        <p className="text-sm line-clamp-2 h-full">GitHub Link</p>
+                        <p className="text-sm line-clamp-2 h-full">
+                          GitHub Link
+                        </p>
                       </a>
                       <Browser
                         id={school.title}
@@ -418,6 +435,20 @@ export default function Home() {
                         defaultUrl={school.linkWebsite}
                         size={80}
                       />
+                      <Icon
+                        id={school.idText}
+                        title="readme"
+                        srcIcon="/img/desktop/file_text.png"
+                        size={80}
+                      >
+                        <textarea
+                          value={school.textValue}
+                          onChange={(e) => setAboutText(e.target.value)}
+                          placeholder="Scrivi qualcosa..."
+                          spellCheck={false}
+                          className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                        />
+                      </Icon>
                     </div>
                   </Icon>
                 ))}
@@ -430,9 +461,10 @@ export default function Home() {
               title="Progetti in corso"
               srcIcon="/img/desktop/folder.png"
               size={80}
+              className="text-white"
             >
               <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
-              {continuedProject.map((soon) => (
+                {continuedProject.map((soon) => (
                   <Icon
                     id={soon.id}
                     title={soon.title}
@@ -453,7 +485,9 @@ export default function Home() {
                           height={80}
                           alt="github"
                         />
-                        <p className="text-sm line-clamp-2 h-full">GitHub Link</p>
+                        <p className="text-sm line-clamp-2 h-full">
+                          GitHub Link
+                        </p>
                       </a>
                       <Browser
                         id={soon.title}
@@ -478,12 +512,13 @@ export default function Home() {
               <p>Contenuto Progetti conclusi</p>
             </Icon> */}
 
-            {/* Settings */}
+            {/* Impostazioni */}
             <Icon
               id="settings"
-              title="Settings"
+              title="Impostazioni"
               srcIcon="/img/desktop/settings.png"
               size={80}
+              className="text-white"
             >
               <div className="p-4 pt-0">
                 <p className="text-[var(--dialog-text)] text-xl font-bold text-center mb-4">
@@ -565,9 +600,10 @@ export default function Home() {
             {/* About me */}
             <Icon
               id="about_me"
-              title="About me.txt"
+              title="about_me.txt"
               srcIcon="/img/desktop/file_text.png"
               size={80}
+              className="text-white"
             >
               <textarea
                 value={aboutText}

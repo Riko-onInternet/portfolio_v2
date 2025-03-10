@@ -32,28 +32,28 @@ const useDialogsStore = () => {
 
   const handleOpen = (id: string) => {
     if (!openDialogs.find((dialog) => dialog.id === id)) {
-      setMaxZIndex(prev => prev + 1);
+      setMaxZIndex((prev) => prev + 1);
       setOpenDialogs([
         ...openDialogs,
         {
           id,
           position: { x: 50, y: 50 },
           isFullScreen: false,
-          zIndex: maxZIndex + 1
+          zIndex: maxZIndex + 1,
         },
       ]);
     }
   };
 
   const bringToFront = (id: string) => {
-    const dialog = openDialogs.find(d => d.id === id);
+    const dialog = openDialogs.find((d) => d.id === id);
     if (dialog && dialog.zIndex !== maxZIndex) {
-      setMaxZIndex(prev => prev + 1);
-      setOpenDialogs(openDialogs.map(d => 
-        d.id === id 
-          ? { ...d, zIndex: maxZIndex + 1 }
-          : d
-      ));
+      setMaxZIndex((prev) => prev + 1);
+      setOpenDialogs(
+        openDialogs.map((d) =>
+          d.id === id ? { ...d, zIndex: maxZIndex + 1 } : d
+        )
+      );
     }
   };
 
@@ -85,7 +85,7 @@ const useDialogsStore = () => {
     handleClose,
     updatePosition,
     toggleFullScreen,
-    bringToFront
+    bringToFront,
   };
 };
 
@@ -100,7 +100,14 @@ export function DialogsProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function Icon({ id, title, srcIcon, size, children, className }: IconProps) {
+export function Icon({
+  id,
+  title,
+  srcIcon,
+  size,
+  children,
+  className,
+}: IconProps) {
   const dialogsStore = React.useContext(DialogsContext);
   if (!dialogsStore)
     throw new Error("Icon must be used within DialogsProvider");
@@ -119,10 +126,11 @@ export function Icon({ id, title, srcIcon, size, children, className }: IconProp
           alt={title}
           width={size}
           height={size}
-          className="size-full drop-shadow-xl shadow-black "
+          className="size-full drop-shadow-xl shadow-black"
+          style={{ maxWidth: size, minHeight: size }}
         />
         <p
-          className={`text-white text-sm text-center line-clamp-2 drop-shadow-lg shadow-black ${className}`}
+          className={`text-[var(--dialog-text)] text-sm text-center line-clamp-2 break-words drop-shadow-lg shadow-black ${className}`}
           title={title}
         >
           {title}
@@ -138,6 +146,10 @@ export function Icon({ id, title, srcIcon, size, children, className }: IconProp
         onPositionChange={(pos) => dialogsStore.updatePosition(id, pos)}
         onFullScreenToggle={() => dialogsStore.toggleFullScreen(id)}
       >
+        <div className="text-xs absolute top-0 left-[12px] h-[40px] text-[var(--dialog-text)] flex items-center space-x-2">
+          <Image src={srcIcon} alt={title} width={24} height={24} />
+          <span>{title}</span>
+        </div>
         {children}
       </IconContent>
     </>
@@ -189,7 +201,7 @@ export function IconContent({
   const isFullScreen = propIsFullScreen || isSmallScreen;
 
   const dialogsStore = React.useContext(DialogsContext);
-  const dialog = dialogsStore?.openDialogs.find(d => d.id === id);
+  const dialog = dialogsStore?.openDialogs.find((d) => d.id === id);
 
   const initDrag = (e: React.MouseEvent) => {
     if (isFullScreen) return;
@@ -226,7 +238,6 @@ export function IconContent({
       document.addEventListener("mouseup", endDrag);
     }
   };
-
 
   if (!isOpen) return null;
 
@@ -275,9 +286,7 @@ export function IconContent({
             <Minus className="size-4" />
           </button>
         </div>
-        <div className="content-dialog">
-          {children}
-        </div>
+        <div className="content-dialog">{children}</div>
       </div>
     </div>
   );
