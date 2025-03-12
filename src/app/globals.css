@@ -161,3 +161,9 @@ div[data-slot="content"] {
 .theme-dark label[aria-label="Salta introduzione"] > span {
   background-color: var(--dialog-bg);
 }
+
+.github-icon {
+  fill: var(--dialog-text);
+  width: 80px !important;
+  height: 80px !important;
+}

@@ -33,6 +33,7 @@ import { collinadoro } from "@/data/collinadoro";
 import { afrodite } from "@/data/afrodite";
 import { tlt } from "@/data/tlt";
 import { portfolioText } from "@/data/portfolio";
+import { FaGithub } from "react-icons/fa6";
 
 // database projects
 const schoolProjects = [
@@ -135,20 +136,24 @@ export default function Home() {
 
   // Salvataggio skipIntro
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.setItem("skipIntro", JSON.stringify(skipIntro));
     }
   }, [skipIntro]);
 
   // Effetto per applicare il tema
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.setItem("theme", theme);
       // Salvataggio tema
       localStorage.setItem("theme", theme);
 
       // Rimuovi tutte le classi dei temi
-      document.body.classList.remove("theme-light", "theme-dark", "theme-mixed");
+      document.body.classList.remove(
+        "theme-light",
+        "theme-dark",
+        "theme-mixed"
+      );
 
       // Se il tema è "system", usa le preferenze del sistema
       if (theme === "system") {
@@ -188,7 +193,7 @@ export default function Home() {
 
   // Salvataggio wallpaper
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.setItem("wallpaper", wallpaper);
     }
   }, [wallpaper]);
@@ -442,19 +447,14 @@ export default function Home() {
                       <div className="flex flex-row flex-wrap items-start gap-4">
                         <a
                           href={school.linkGithub}
-                          className="flex flex-col items-center justify-start w-[80px] text-center h-[120px]"
+                          className="flex flex-col items-center justify-start w-[80px] text-center"
                           target="_blank"
                           rel="noopener noreferrer"
                           title="GitHub Link"
                         >
-                          <Image
-                            src="/img/github.svg"
-                            width={80}
-                            height={80}
-                            alt="github"
-                            className="p-[6px]"
-                          />
-                          <p className="text-sm line-clamp-2 h-full">
+                          <FaGithub className="github-icon p-1" />
+
+                          <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
                             GitHub Link
                           </p>
                         </a>
@@ -493,7 +493,7 @@ export default function Home() {
                 className="text-white"
               >
                 <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
-                  {continuedProject.map((soon) => (
+                  {/* {continuedProject.map((soon) => (
                     <Icon
                       id={soon.id}
                       title={soon.title}
@@ -505,18 +505,14 @@ export default function Home() {
                       <div className="flex flex-row flex-wrap items-start gap-4">
                         <a
                           href={soon.linkGithub}
-                          className="flex flex-col items-center justify-start w-[80px] text-center h-[120px]"
+                          className="flex flex-col items-center justify-start w-[80px] text-center"
                           target="_blank"
                           rel="noopener noreferrer"
+                          title="GitHub Link"
                         >
-                          <Image
-                            src="/img/github.svg"
-                            width={80}
-                            height={80}
-                            alt="github"
-                            className="p-[6px]"
-                          />
-                          <p className="text-sm line-clamp-2 h-full">
+                          <FaGithub className="github-icon p-1" />
+
+                          <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
                             GitHub Link
                           </p>
                         </a>
@@ -529,7 +525,9 @@ export default function Home() {
                         />
                       </div>
                     </Icon>
-                  ))}
+                  ))} */}
+
+                  Soon...
                 </div>
               </Icon>
 
