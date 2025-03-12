@@ -114,50 +114,54 @@ export default function Home() {
   const [isBooting, setIsBooting] = React.useState(false);
 
   // Inizializza skipIntro con false come valore di default
-  const [skipIntro, setSkipIntro] = useState(() => {
-    const saved = localStorage.getItem("skipIntro");
-    return saved ? JSON.parse(saved) : false;
-  });
+  const [skipIntro, setSkipIntro] = useState(false);
+  const [theme, setTheme] = useState<Theme>("mixed");
+  const [wallpaper, setWallpaper] = useState<Wallpaper>("1");
 
-  // Stato per il tema
-  const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem("theme");
-    return (saved as Theme) || "mixed";
-  });
+  // Carica i valori da localStorage solo lato client
+  useEffect(() => {
+    // Carica skipIntro
+    const savedSkipIntro = localStorage.getItem("skipIntro");
+    if (savedSkipIntro) setSkipIntro(JSON.parse(savedSkipIntro));
 
-  // Stato per il wallpaper
-  const [wallpaper, setWallpaper] = useState<Wallpaper>(() => {
-    const saved = localStorage.getItem("wallpaper");
-    return (saved as Wallpaper) || "1";
-  });
+    // Carica theme
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) setTheme(savedTheme as Theme);
 
-  // Stato per il testo di about
-  // const [aboutText, setAboutText] = useState(aboutContent);
+    // Carica wallpaper
+    const savedWallpaper = localStorage.getItem("wallpaper");
+    if (savedWallpaper) setWallpaper(savedWallpaper as Wallpaper);
+  }, []);
 
   // Salvataggio skipIntro
   useEffect(() => {
-    localStorage.setItem("skipIntro", JSON.stringify(skipIntro));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("skipIntro", JSON.stringify(skipIntro));
+    }
   }, [skipIntro]);
 
   // Effetto per applicare il tema
   useEffect(() => {
-    // Salvataggio tema
-    localStorage.setItem("theme", theme);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("theme", theme);
+      // Salvataggio tema
+      localStorage.setItem("theme", theme);
 
-    // Rimuovi tutte le classi dei temi
-    document.body.classList.remove("theme-light", "theme-dark", "theme-mixed");
+      // Rimuovi tutte le classi dei temi
+      document.body.classList.remove("theme-light", "theme-dark", "theme-mixed");
 
-    // Se il tema è "system", usa le preferenze del sistema
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light";
-      document.body.classList.add(`theme-${systemTheme}`);
-      console.log(`Tema di sistema rilevato: ${systemTheme}`);
-    } else {
-      // Altrimenti usa il tema selezionato
-      document.body.classList.add(`theme-${theme}`);
+      // Se il tema è "system", usa le preferenze del sistema
+      if (theme === "system") {
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+          .matches
+          ? "dark"
+          : "light";
+        document.body.classList.add(`theme-${systemTheme}`);
+        console.log(`Tema di sistema rilevato: ${systemTheme}`);
+      } else {
+        // Altrimenti usa il tema selezionato
+        document.body.classList.add(`theme-${theme}`);
+      }
     }
   }, [theme]);
 
@@ -184,7 +188,9 @@ export default function Home() {
 
   // Salvataggio wallpaper
   useEffect(() => {
-    localStorage.setItem("wallpaper", wallpaper);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("wallpaper", wallpaper);
+    }
   }, [wallpaper]);
 
   // Funzione di utilità per riprodurre audio
