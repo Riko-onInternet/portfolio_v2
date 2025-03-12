@@ -1,3 +1,7 @@
+.content-dialog-browser {
+  height: calc(100% - 40px);
+}
+
 @keyframes loading {
   0% { width: 0; }
   50% { width: 70%; }
