@@ -1,7 +1,7 @@
 "use client";
 
 // React
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 // NextUI
 import { Switch } from "@nextui-org/react";
@@ -208,17 +208,37 @@ export default function Home() {
     Cookies.set("aboutText", aboutText, { expires: 365 });
   }, [aboutText]);
 
+  // Funzione di utilità per riprodurre audio
+  const playAudio = (audioId: string, volume: number = 1) => {
+    const audio = document.getElementById(audioId) as HTMLAudioElement;
+    if (audio) {
+      // Reset dell'audio prima della riproduzione
+      audio.currentTime = 0;
+      audio.volume = volume;
+      audio.play().catch((error) => {
+        console.log(`Errore durante la riproduzione dell'audio: ${error}`);
+      });
+    }
+  };
+
   // handle press
   const handlePress = (e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault(); // Previene comportamenti indesiderati
+    e.preventDefault();
     setIsPressing(true);
+    // Riproduci audio button in
+    playAudio("clickIN", 0.5);
   };
 
   // handle release
   const handleRelease = (e: React.MouseEvent | React.TouchEvent) => {
+    console.log("accensione");
+
     e.preventDefault();
     setIsPressing(false);
-    console.log("accensione");
+
+    // Riproduzione audio
+    playAudio("clickOUT", 0.5);
+    playAudio("fanPC", 0.8);
 
     // Effetto nascondi testo alla sezione "power"
     const powerText = document.getElementById("power-text");
@@ -300,6 +320,9 @@ export default function Home() {
     if (sectionLogin) {
       setTimeout(() => {
         sectionLogin.style.display = "none";
+        setTimeout(() => {
+          playAudio("startOS");
+        }, 1);
       }, 16000);
     }
   };
@@ -645,7 +668,10 @@ export default function Home() {
       </div>
 
       {/* audio */}
-      {/* <audio src="/audio/ambient_sound.mp3" id="ambientAudio" controls loop /> */}
+      <audio src="/audio/button_in.mp3" id="clickIN" />
+      <audio src="/audio/button_out.mp3" id="clickOUT" />
+      <audio src="/audio/fan_pc.mp3" id="fanPC" />
+      <audio src="/audio/start_os.mp3" id="startOS" />
     </>
   );
 }
