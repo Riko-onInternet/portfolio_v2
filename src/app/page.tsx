@@ -34,6 +34,7 @@ import { untimed } from "@/data/untimed";
 import { collinadoro } from "@/data/collinadoro";
 import { afrodite } from "@/data/afrodite";
 import { tlt } from "@/data/tlt";
+import { portfolioText } from "@/data/portfolio";
 
 // database links
 const schoolProjects = [
@@ -642,6 +643,22 @@ export default function Home() {
               >
                 <textarea
                   value={aboutText}
+                  onChange={(e) => setAboutText(e.target.value)}
+                  placeholder="Scrivi qualcosa..."
+                  spellCheck={false}
+                  className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                />
+              </Icon>
+
+              <Icon
+                id="textPortfolio"
+                title="dettagli portfolio.txt"
+                srcIcon="/img/desktop/file_text.png"
+                size={80}
+                className="text-white"
+              >
+                <textarea
+                  value={portfolioText}
                   onChange={(e) => setAboutText(e.target.value)}
                   placeholder="Scrivi qualcosa..."
                   spellCheck={false}

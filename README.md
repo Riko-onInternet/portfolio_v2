@@ -11,6 +11,7 @@ Ciao! Sono Andrea De Laurentis, conosciuto online come "Riko". Sono un front-end
 ## 🚀 Caratteristiche del Portfolio
 
 Il mio portfolio è costruito come un'interfaccia desktop interattiva che simula un sistema operativo, con:
+
 - Animazione di boot personalizzata
 - Sistema di finestre draggable
 - Interfaccia responsive
@@ -24,19 +25,6 @@ Il mio portfolio è costruito come un'interfaccia desktop interattiva che simula
 - Tailwind CSS
 - Lucide React per le icone
 
-## 💻 Come Eseguire Localmente
-
-```bash
-# Clona il repository
-git clone https://github.com/Riko-onInternet/portfolio_v2.git
-
-# Installa le dipendenze
-npm install
-
-# Avvia il server di sviluppo
-npm run dev
-```
-
 ## 📫 Contatti
 
 - 🌐 [Portfolio](https://andreadelau-portfolio.vercel.app/)
@@ -48,4 +36,5 @@ npm run dev
 Questo progetto è sotto licenza MIT.
 
 ---
+
 ⭐️ Se ti piace questo portfolio, non esitare a lasciare una stella!
