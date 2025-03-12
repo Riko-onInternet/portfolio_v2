@@ -9,8 +9,6 @@ import { Select, SelectItem } from "@nextui-org/react";
 
 // Next
 import Image from "next/image";
-import Cookies from "js-cookie";
-// import Link from "next/link";
 
 // Assets
 const powerUp = "/img/button_power/power-up.png";
@@ -36,7 +34,7 @@ import { afrodite } from "@/data/afrodite";
 import { tlt } from "@/data/tlt";
 import { portfolioText } from "@/data/portfolio";
 
-// database links
+// database projects
 const schoolProjects = [
   {
     title: "Replica Reazer",
@@ -116,42 +114,35 @@ export default function Home() {
   const [isBooting, setIsBooting] = React.useState(false);
 
   // Inizializza skipIntro con false come valore di default
-  const [skipIntro, setSkipIntro] = useState(false);
+  const [skipIntro, setSkipIntro] = useState(() => {
+    const saved = localStorage.getItem("skipIntro");
+    return saved ? JSON.parse(saved) : false;
+  });
 
   // Stato per il tema
-  const [theme, setTheme] = useState<Theme>("mixed");
+  const [theme, setTheme] = useState<Theme>(() => {
+    const saved = localStorage.getItem("theme");
+    return (saved as Theme) || "mixed";
+  });
 
   // Stato per il wallpaper
-  const [wallpaper, setWallpaper] = useState<Wallpaper>("1");
+  const [wallpaper, setWallpaper] = useState<Wallpaper>(() => {
+    const saved = localStorage.getItem("wallpaper");
+    return (saved as Wallpaper) || "1";
+  });
 
   // Stato per il testo di about
-  const [aboutText, setAboutText] = useState(aboutContent);
+  // const [aboutText, setAboutText] = useState(aboutContent);
 
-  // Sposta la lettura dei cookie in un useEffect
+  // Salvataggio skipIntro
   useEffect(() => {
-    const savedValue = Cookies.get("skipIntro");
-    if (savedValue !== undefined) {
-      setSkipIntro(JSON.parse(savedValue));
-    }
-  }, []);
-
-  // Salva nei cookie quando skipIntro cambia
-  useEffect(() => {
-    Cookies.set("skipIntro", JSON.stringify(skipIntro), { expires: 365 });
+    localStorage.setItem("skipIntro", JSON.stringify(skipIntro));
   }, [skipIntro]);
-
-  // Effetto per caricare il tema dai cookie
-  useEffect(() => {
-    const savedTheme = Cookies.get("theme") as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    }
-  }, []);
 
   // Effetto per applicare il tema
   useEffect(() => {
-    // Salva nei cookie
-    Cookies.set("theme", theme, { expires: 365 });
+    // Salvataggio tema
+    localStorage.setItem("theme", theme);
 
     // Rimuovi tutte le classi dei temi
     document.body.classList.remove("theme-light", "theme-dark", "theme-mixed");
@@ -191,23 +182,10 @@ export default function Home() {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme]);
 
-  // Effetto per caricare il wallpaper dai cookie
+  // Salvataggio wallpaper
   useEffect(() => {
-    const savedWallpaper = Cookies.get("wallpaper") as Wallpaper;
-    if (savedWallpaper) {
-      setWallpaper(savedWallpaper);
-    }
-  }, []);
-
-  // Effetto per salvare il wallpaper nei cookie
-  useEffect(() => {
-    Cookies.set("wallpaper", wallpaper, { expires: 365 });
+    localStorage.setItem("wallpaper", wallpaper);
   }, [wallpaper]);
-
-  // Aggiungi questo effetto per salvare il testo nei cookie
-  useEffect(() => {
-    Cookies.set("aboutText", aboutText, { expires: 365 });
-  }, [aboutText]);
 
   // Funzione di utilità per riprodurre audio
   const playAudio = (audioId: string, volume: number = 1) => {
@@ -222,6 +200,19 @@ export default function Home() {
     }
   };
 
+  // Effetto per nascondere la sezione "power", "boot" e "login" se skipIntro è true
+  useEffect(() => {
+    const sectionPower = document.getElementById("section-power");
+    const sectionBoot = document.getElementById("section-boot");
+    const sectionLogin = document.getElementById("section-login");
+
+    if (skipIntro) {
+      if (sectionPower) sectionPower.style.display = "none";
+      if (sectionBoot) sectionBoot.style.display = "none";
+      if (sectionLogin) sectionLogin.style.display = "none";
+    }
+  }, [skipIntro]);
+
   // handle press
   const handlePress = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
@@ -233,11 +224,10 @@ export default function Home() {
   // handle release
   const handleRelease = (e: React.MouseEvent | React.TouchEvent) => {
     console.log("accensione");
-
     e.preventDefault();
     setIsPressing(false);
 
-    // Riproduzione audio
+    // Riproduci audio button out e fan pc
     playAudio("clickOUT", 0.5);
     playAudio("fanPC", 0.8);
 
@@ -477,7 +467,6 @@ export default function Home() {
                         >
                           <textarea
                             value={school.textValue}
-                            onChange={(e) => setAboutText(e.target.value)}
                             placeholder="Scrivi qualcosa..."
                             spellCheck={false}
                             className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
@@ -589,6 +578,8 @@ export default function Home() {
                         className="w-1/3 colored-select"
                         // defaultSelectedKeys={[theme]}
                         selectedKeys={[theme]}
+                        selectionMode="single"
+                        disallowEmptySelection={true}
                         onSelectionChange={(keys) => {
                           const selectedTheme = Array.from(keys)[0] as Theme;
                           setTheme(selectedTheme);
@@ -642,8 +633,7 @@ export default function Home() {
                 className="text-white"
               >
                 <textarea
-                  value={aboutText}
-                  onChange={(e) => setAboutText(e.target.value)}
+                  value={aboutContent}
                   placeholder="Scrivi qualcosa..."
                   spellCheck={false}
                   className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
@@ -659,7 +649,6 @@ export default function Home() {
               >
                 <textarea
                   value={portfolioText}
-                  onChange={(e) => setAboutText(e.target.value)}
                   placeholder="Scrivi qualcosa..."
                   spellCheck={false}
                   className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
