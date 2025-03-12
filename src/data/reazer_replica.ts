@@ -33,5 +33,4 @@ Il progetto consiste in una replica statica (non responsive) della home page di 
 
 ## 📄 Licenza
 
-Questo progetto è stato creato solo per scopi educativi. Tutti i diritti sul design originale appartengono a Razer Inc.
-`;
+Questo progetto è stato creato solo per scopi educativi. Tutti i diritti sul design originale appartengono a Razer Inc.`;

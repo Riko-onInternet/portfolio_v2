@@ -15,6 +15,7 @@ Mi reputo una persona disponibile e collaborativa.
 - PHP*
 - Laravel*
 - MySQL*
+- Node.js*
 - Figma
 - Photoshop
 - Illustrator

@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 
 import { X, Square, Minus, BringToFront } from "lucide-react";
@@ -137,21 +138,24 @@ export function Icon({
         </p>
       </div>
 
-      <IconContent
-        id={id}
-        isOpen={!!dialog}
-        position={dialog?.position || { x: 50, y: 50 }}
-        isFullScreen={dialog?.isFullScreen || false}
-        onClose={() => dialogsStore.handleClose(id)}
-        onPositionChange={(pos) => dialogsStore.updatePosition(id, pos)}
-        onFullScreenToggle={() => dialogsStore.toggleFullScreen(id)}
-      >
-        <div className="text-xs absolute top-0 left-[12px] h-[40px] text-[var(--dialog-text)] flex items-center space-x-2">
-          <Image src={srcIcon} alt={title} width={24} height={24} />
-          <span>{title}</span>
-        </div>
-        {children}
-      </IconContent>
+      {typeof window !== 'undefined' && createPortal(
+        <IconContent
+          id={id}
+          isOpen={!!dialog}
+          position={dialog?.position || { x: 50, y: 50 }}
+          isFullScreen={dialog?.isFullScreen || false}
+          onClose={() => dialogsStore.handleClose(id)}
+          onPositionChange={(pos) => dialogsStore.updatePosition(id, pos)}
+          onFullScreenToggle={() => dialogsStore.toggleFullScreen(id)}
+        >
+          <div className="text-xs absolute top-0 left-0 px-3 h-[40px] w-full bg-[var(--dialog-bg-secondary)] text-[var(--dialog-text)] flex items-center space-x-2 z-0 select-none rounded-t-lg">
+            <Image src={srcIcon} alt={title} width={24} height={24} />
+            <span>{title}</span>
+          </div>
+          {children}
+        </IconContent>,
+        document.body
+      )}
     </>
   );
 }
@@ -248,12 +252,12 @@ export function IconContent({
       style={
         !isFullScreen
           ? {
-              position: "fixed",
               left: `${position.x}px`,
               top: `${position.y}px`,
-              zIndex: dialog?.zIndex || 50,
             }
-          : undefined
+          : {
+              zIndex: 100,
+            }
       }
       onMouseDown={() => dialogsStore?.bringToFront(id)}
     >
@@ -264,7 +268,7 @@ export function IconContent({
       >
         <div
           ref={headerRef}
-          className="flex justify-start items-center flex-row-reverse cursor-move bg-[var(--dialog-bg-secondary)] h-[40px]"
+          className="flex justify-start items-center flex-row-reverse cursor-move h-[40px] relative z-10"
           onMouseDown={initDrag}
         >
           <button
