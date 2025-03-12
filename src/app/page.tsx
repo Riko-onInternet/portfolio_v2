@@ -93,7 +93,7 @@ const schoolProjects = [
   },
 ];
 
-const continuedProject = [
+/* const continuedProject = [
   {
     id: "unknown",
     title: "unKnown",
@@ -108,7 +108,7 @@ const continuedProject = [
     linkWebsite: "",
     icon: "/img/desktop/chrome.png",
   },
-];
+]; */
 
 export default function Home() {
   const [isPressing, setIsPressing] = React.useState(false);
