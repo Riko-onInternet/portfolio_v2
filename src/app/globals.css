@@ -62,9 +62,15 @@ img {
 
 /* Animazione per la barra di caricamento del browser */
 @keyframes loading-browser {
-  0% { width: 0; }
-  50% { width: 70%; }
-  100% { width: 100%; }
+  0% {
+    width: 0;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 100%;
+  }
 }
 
 /* Animazione per le barre di boot e login */
@@ -108,8 +114,6 @@ img {
     color: var(--dialog-text) !important;
   }
 }
-
-
 
 /* Theme Light */
 .theme-light {
@@ -166,4 +170,8 @@ div[data-slot="content"] {
   fill: var(--dialog-text);
   width: 80px !important;
   height: 80px !important;
+}
+
+html, body {
+  background-color: var(--bg-barra);
 }

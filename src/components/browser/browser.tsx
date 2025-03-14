@@ -359,7 +359,7 @@ export function Browser({
                   placement="bottom-end"
                   className="max-w-[200px] text-start"
                 >
-                  <Info className="size-4" />
+                  <Info className="size-4 text-[var(--dialog-text)]" />
                 </Tooltip>
               </div>
             </div>

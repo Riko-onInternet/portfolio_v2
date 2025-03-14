@@ -472,7 +472,7 @@ export default function Home() {
                           size={80}
                         >
                           <textarea
-                            value={school.textValue}
+                            defaultValue={school.textValue}
                             placeholder="Scrivi qualcosa..."
                             spellCheck={false}
                             className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
@@ -526,7 +526,6 @@ export default function Home() {
                       </div>
                     </Icon>
                   ))} */}
-
                   Soon...
                 </div>
               </Icon>
@@ -637,7 +636,7 @@ export default function Home() {
                 className="text-white"
               >
                 <textarea
-                  value={aboutContent}
+                  defaultValue={aboutContent}
                   placeholder="Scrivi qualcosa..."
                   spellCheck={false}
                   className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
@@ -678,10 +677,10 @@ export default function Home() {
       </div>
 
       {/* audio */}
-      <audio src="/audio/button_in.mp3" id="clickIN" />
-      <audio src="/audio/button_out.mp3" id="clickOUT" />
-      <audio src="/audio/fan_pc.mp3" id="fanPC" />
-      <audio src="/audio/start_os.mp3" id="startOS" />
+      <audio src="/audio/button_in.mp3" id="clickIN" preload="auto" />
+      <audio src="/audio/button_out.mp3" id="clickOUT" preload="auto" />
+      <audio src="/audio/fan_pc.mp3" id="fanPC" preload="auto" />
+      <audio src="/audio/start_os.mp3" id="startOS" preload="auto" />
     </>
   );
 }

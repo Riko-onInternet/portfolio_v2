@@ -128,7 +128,7 @@ export function Icon({
           width={size}
           height={size}
           className="size-full drop-shadow-xl shadow-black"
-          style={{ maxWidth: size, minHeight: size }}
+          style={{ maxWidth: size, width: "100%", minHeight: size }}
         />
         <p
           className={`text-[var(--dialog-text)] text-sm text-center line-clamp-2 break-words drop-shadow-lg shadow-black ${className}`}
