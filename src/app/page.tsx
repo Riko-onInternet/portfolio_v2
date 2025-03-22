@@ -15,8 +15,11 @@ const powerUp = "/img/button_power/power-up.png";
 const powerDown = "/img/button_power/power-down.png";
 
 // Components
-import { Icon } from "@/components/icon/icon";
-import { Browser } from "@/components/browser/browser";
+import { Icon } from "@/components/icon";
+import { Browser } from "@/components/browser";
+
+// Icons
+import { FaGithub } from "react-icons/fa6";
 
 // Aggiungi questo tipo per i temi
 type Theme = "light" | "dark" | "system" | "mixed";
@@ -33,7 +36,9 @@ import { collinadoro } from "@/data/collinadoro";
 import { afrodite } from "@/data/afrodite";
 import { tlt } from "@/data/tlt";
 import { portfolioText } from "@/data/portfolio";
-import { FaGithub } from "react-icons/fa6";
+import { unknownRemastered } from "@/data/unknown_remastered";
+import { unknown } from "@/data/unknown";
+import { rikoUI } from "@/data/riko_ui";
 
 // database projects
 const schoolProjects = [
@@ -93,22 +98,26 @@ const schoolProjects = [
   },
 ];
 
-/* const continuedProject = [
+const continuedProject = [
   {
     id: "unknown",
     title: "unKnown",
-    linkGithub: "",
-    linkWebsite: "",
+    linkGithub: "https://github.com/Riko-onInternet/unknown",
+    linkWebsite: "https://unknown-stream.vercel.app/",
     icon: "/img/desktop/chrome.png",
+    idText: "text-unknown",
+    textValue: unknown,
   },
   {
-    id: "riko_ui",
-    title: "Riko_UI",
-    linkGithub: "",
-    linkWebsite: "",
+    id: "unknown_remastered",
+    title: "unKnown - Remastered",
+    linkGithub: "https://github.com/Riko-onInternet/unknown-remastered",
+    linkWebsite: "https://unknown-remastered.vercel.app/",
     icon: "/img/desktop/chrome.png",
+    idText: "text-unknown_remastered",
+    textValue: unknownRemastered,
   },
-]; */
+];
 
 export default function Home() {
   const [isPressing, setIsPressing] = React.useState(false);
@@ -118,6 +127,51 @@ export default function Home() {
   const [skipIntro, setSkipIntro] = useState(false);
   const [theme, setTheme] = useState<Theme>("mixed");
   const [wallpaper, setWallpaper] = useState<Wallpaper>("1");
+
+  // Aggiungi questa variabile di stato all'inizio del componente
+  const [audioPlayed, setAudioPlayed] = useState(false);
+
+  // Aggiungi questi stati all'inizio del componente
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [debugLogs, setDebugLogs] = useState<string[]>([]);
+
+  // Aggiungi questo useEffect all'inizio del componente, subito dopo le dichiarazioni degli stati
+  useEffect(() => {
+    // Funzione per sbloccare l'audio
+    const unlockAudio = async () => {
+      try {
+        // Crea e riproduci un audio silenzioso
+        const AudioContextClass =
+          window.AudioContext ||
+          (
+            window as Window &
+              typeof globalThis & { webkitAudioContext?: typeof AudioContext }
+          ).webkitAudioContext;
+        const audioContext = new AudioContextClass();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        gainNode.gain.value = 0; // Volume a 0
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator.start(0);
+        oscillator.stop(0.001);
+
+        // Pre-carica tutti gli audio
+        const audioIds = ["clickIN", "clickOUT", "fanPC", "startOS"];
+        audioIds.forEach((id) => {
+          const audio = document.getElementById(id) as HTMLAudioElement;
+          if (audio) {
+            audio.load();
+          }
+        });
+      } catch (error) {
+        console.log("Errore nello sblocco audio:", error);
+      }
+    };
+
+    // Esegui lo sblocco
+    unlockAudio();
+  }, []);
 
   // Carica i valori da localStorage solo lato client
   useEffect(() => {
@@ -202,12 +256,27 @@ export default function Home() {
   const playAudio = (audioId: string, volume: number = 1) => {
     const audio = document.getElementById(audioId) as HTMLAudioElement;
     if (audio) {
-      // Reset dell'audio prima della riproduzione
       audio.currentTime = 0;
       audio.volume = volume;
-      audio.play().catch((error) => {
-        console.log(`Errore durante la riproduzione dell'audio: ${error}`);
-      });
+
+      // Assicurati che l'audio sia completamente caricato prima di riprodurlo
+      if (audio.readyState >= 2) {
+        audio.play().catch((error) => {
+          console.log(`Errore durante la riproduzione dell'audio: ${error}`);
+        });
+      } else {
+        audio.addEventListener(
+          "canplaythrough",
+          () => {
+            audio.play().catch((error) => {
+              console.log(
+                `Errore durante la riproduzione dell'audio: ${error}`
+              );
+            });
+          },
+          { once: true }
+        );
+      }
     }
   };
 
@@ -228,19 +297,37 @@ export default function Home() {
   const handlePress = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     setIsPressing(true);
-    // Riproduci audio button in
+    setAudioPlayed(false); // Reset dello stato dell'audio
+
+    // Aggiungi log di debug
+    setDebugLogs((prev) => [
+      ...prev,
+      `Press Event: ${e.type} at ${new Date().toLocaleTimeString()}`,
+    ]);
+
+    // Riproduci l'audio immediatamente
     playAudio("clickIN", 0.5);
   };
 
   // handle release
-  const handleRelease = (e: React.MouseEvent | React.TouchEvent) => {
-    console.log("accensione");
+  const handleRelease = async (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     setIsPressing(false);
 
-    // Riproduci audio button out e fan pc
-    playAudio("clickOUT", 0.5);
-    playAudio("fanPC", 0.8);
+    // Aggiungi log di debug
+    setDebugLogs((prev) => [
+      ...prev,
+      `Release Event: ${e.type} at ${new Date().toLocaleTimeString()}`,
+    ]);
+
+    // Riproduci clickOUT solo se clickIN è stato riprodotto
+    if (!audioPlayed) {
+      setAudioPlayed(true);
+      // Aggiungi un piccolo ritardo prima di riprodurre il secondo audio
+      await new Promise((resolve) => setTimeout(resolve, 200));
+      playAudio("clickOUT", 0.5);
+      playAudio("fanPC", 0.8);
+    }
 
     // Effetto nascondi testo alla sezione "power"
     const powerText = document.getElementById("power-text");
@@ -324,7 +411,7 @@ export default function Home() {
         sectionLogin.style.display = "none";
         setTimeout(() => {
           playAudio("startOS");
-        }, 1);
+        }, 100);
       }, 16000);
     }
   };
@@ -467,7 +554,7 @@ export default function Home() {
                         />
                         <Icon
                           id={school.idText}
-                          title="readme"
+                          title="readme.md"
                           srcIcon="/img/desktop/file_text.png"
                           size={80}
                         >
@@ -493,7 +580,7 @@ export default function Home() {
                 className="text-white"
               >
                 <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
-                  {/* {continuedProject.map((soon) => (
+                  {continuedProject.map((soon) => (
                     <Icon
                       id={soon.id}
                       title={soon.title}
@@ -517,16 +604,71 @@ export default function Home() {
                           </p>
                         </a>
                         <Browser
-                          id={soon.title}
+                          id={soon.id}
                           title={soon.title}
                           srcBrowser={soon.icon}
                           defaultUrl={soon.linkWebsite}
                           size={80}
                         />
+                        <Icon
+                          id={soon.idText}
+                          title="readme.md"
+                          srcIcon="/img/desktop/file_text.png"
+                          size={80}
+                        >
+                          <textarea
+                            defaultValue={soon.textValue}
+                            placeholder="Scrivi qualcosa..."
+                            spellCheck={false}
+                            className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                          />
+                        </Icon>
                       </div>
                     </Icon>
-                  ))} */}
-                  Soon...
+                  ))}
+                  <Icon
+                    id="riko_ui"
+                    title="Riko_UI"
+                    srcIcon="/img/desktop/folder.png"
+                    size={80}
+                    className="!text-[var(--dialog-text)] w-[80px]"
+                  >
+                    <div className="flex flex-row flex-wrap items-start gap-4">
+                      {/* <a
+                        href=""
+                        className="flex flex-col items-center justify-start w-[80px] text-center"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="GitHub Link"
+                      >
+                        <FaGithub className="github-icon p-1" />
+
+                        <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
+                          GitHub Link
+                        </p>
+                      </a>
+                      <Browser
+                        id="riko_ui"
+                        title="Riko_UI"
+                        srcBrowser="/img/desktop/chrome.png"
+                        defaultUrl=""
+                        size={80}
+                      /> */}
+                      <Icon
+                        id="text-riko_ui"
+                        title="readme.md"
+                        srcIcon="/img/desktop/file_text.png"
+                        size={80}
+                      >
+                        <textarea
+                          defaultValue={rikoUI}
+                          placeholder="Scrivi qualcosa..."
+                          spellCheck={false}
+                          className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                        />
+                      </Icon>
+                    </div>
+                  </Icon>
                 </div>
               </Icon>
 
@@ -643,6 +785,7 @@ export default function Home() {
                 />
               </Icon>
 
+              {/* Dettagli portfolio */}
               <Icon
                 id="textPortfolio"
                 title="dettagli portfolio.txt"
@@ -651,7 +794,7 @@ export default function Home() {
                 className="text-white"
               >
                 <textarea
-                  value={portfolioText}
+                  defaultValue={portfolioText}
                   placeholder="Scrivi qualcosa..."
                   spellCheck={false}
                   className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
@@ -681,6 +824,15 @@ export default function Home() {
       <audio src="/audio/button_out.mp3" id="clickOUT" preload="auto" />
       <audio src="/audio/fan_pc.mp3" id="fanPC" preload="auto" />
       <audio src="/audio/start_os.mp3" id="startOS" preload="auto" />
+
+      {/* <div className="fixed bottom-0 left-0 bg-black/80 text-white p-4 max-w-[300px] max-h-[200px] overflow-y-auto text-xs z-50">
+        <h3 className="font-bold mb-2">Debug Events:</h3>
+        {debugLogs.map((log, index) => (
+          <div key={index} className="mb-1">
+            {log}
+          </div>
+        ))}
+      </div> */}
     </>
   );
 }

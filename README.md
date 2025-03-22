@@ -4,9 +4,23 @@ Ciao! Sono Andrea De Laurentis, conosciuto online come "Riko". Sono un front-end
 
 ## 🛠️ Competenze Tecniche
 
-- **Frontend:** React, Next.js, TypeScript, HTML5, CSS3, Tailwind CSS
-- **UI/UX:** Design Moderno, Interfacce Responsive, Animazioni Web
-- **Strumenti:** Git, VS Code, Vercel
+- **Frontend**: 
+  - React,
+  - Next.js,
+  - TypeScript,
+  - HTML5,
+  - CSS3,
+  - Tailwind CSS
+
+- **UI/UX**:
+  - Design Moderno,
+  - Interfacce Responsive,
+  - Animazioni Web
+
+- **Strumenti**:
+  - Git,
+  - VS Code,
+  - Vercel
 
 ## 🚀 Caratteristiche del Portfolio
 

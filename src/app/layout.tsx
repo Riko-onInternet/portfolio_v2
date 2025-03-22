@@ -5,8 +5,8 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-import { DialogsProvider } from "@/components/browser/browser";
-import { DialogsProvider as IconDialogsProvider } from "@/components/icon/icon";
+import { DialogsProvider } from "@/components/browser";
+import { DialogsProvider as IconDialogsProvider } from "@/components/icon";
 
 export const metadata: Metadata = {
   // Metadata

@@ -1,42 +1,54 @@
-export const portfolioText = `# Portfolio OS-Style 💻
+export const portfolioText = `# Portfolio di Andrea De Laurentis 👋
 
-Benvenuto nel mio portfolio ispirato a un sistema operativo desktop! Questo progetto è stato creato per presentare il mio lavoro in modo coinvolgente.
+Ciao! Sono Andrea De Laurentis, conosciuto online come "Riko". Sono un front-end developer appassionato di programmazione web e design moderno. Mi piace creare soluzioni innovative e dare vita a interfacce utente coinvolgenti.
 
-## 🛠️ Tecnologie Utilizzate
+## 🛠️ Competenze Tecniche
+
+- **Frontend**: 
+  - React,
+  - Next.js,
+  - TypeScript,
+  - HTML5,
+  - CSS3,
+  - Tailwind CSS
+
+- **UI/UX**:
+  - Design Moderno,
+  - Interfacce Responsive,
+  - Animazioni Web
+
+- **Strumenti**:
+  - Git,
+  - VS Code,
+  - Vercel
+
+## 🚀 Caratteristiche del Portfolio
+
+Il mio portfolio è costruito come un'interfaccia desktop interattiva che simula un sistema operativo, con:
+
+- Animazione di boot personalizzata
+- Sistema di finestre draggable
+- Interfaccia responsive
+- Design moderno e minimalista
+
+## 🔧 Tecnologie Utilizzate
 
 - Next.js 15.1
 - React 19
 - TypeScript
 - Tailwind CSS
-- NextUI
-- Lucide React
+- Lucide React per le icone
 
-## ✨ Caratteristiche Principali
+## 📫 Contatti
 
-- Interfaccia desktop interattiva
-- Sistema di finestre draggable
-- Animazione di boot personalizzata
-- Sistema di temi (chiaro/scuro/misto)
-- Personalizzazione dello sfondo
-- Persistenza delle preferenze utente
-- Opzione per saltare l'introduzione
-- Design responsive e moderno
+- 🌐 [Portfolio](https://andreadelau-portfolio.vercel.app/)
+- 💼 [LinkedIn](https://www.linkedin.com/in/andrea-de-laurentis/)
+- 🐱 [GitHub](https://github.com/Riko-onInternet)
 
-## 🎯 Struttura del Progetto
+## 📝 Licenza
 
-- Sistema di boot con animazioni
-- Schermata di login personalizzata
-- Desktop interattivo con icone
-- Finestre per progetti e informazioni
-- Barra delle applicazioni
-- Menu delle impostazioni
+Questo progetto è sotto licenza MIT.
 
-## 💡 Funzionalità Extra
+---
 
-- Audio feedback per le interazioni
-- Animazioni fluide e naturali
-- Cookie per salvare le preferenze
-
-## 🌐 Ispirazione
-
-Il design è ispirato ai moderni sistemi operativi desktop, con un tocco personale.`;
+⭐️ Se ti piace questo portfolio, non esitare a lasciare una stella!`;
