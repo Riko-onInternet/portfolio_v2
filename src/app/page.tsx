@@ -82,7 +82,7 @@ const schoolProjects = [
   {
     title: "Afrodite",
     linkGithub: "https://github.com/Riko-onInternet/afrodite",
-    linkWebsite: "https://afrodite-mu.vercel.app/",
+    linkWebsite: "https://afroditeborse.netlify.app/",
     icon: "/img/desktop/chrome.png",
     id: "afrodite",
     idText: "text-afrodite",
@@ -91,7 +91,7 @@ const schoolProjects = [
   {
     title: "The Living Tombstone",
     linkGithub: "https://github.com/Riko-onInternet/thelivingtombstone",
-    linkWebsite: "https://thelivingtombstone.vercel.app/",
+    linkWebsite: "https://thelivingtomstone.netlify.app/",
     icon: "/img/desktop/chrome.png",
     id: "tlt",
     idText: "text-tlt",
