@@ -132,8 +132,6 @@ export default function Home() {
   const [audioPlayed, setAudioPlayed] = useState(false);
 
   // Aggiungi questi stati all'inizio del componente
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [debugLogs, setDebugLogs] = useState<string[]>([]);
 
   // Aggiungi questo useEffect all'inizio del componente, subito dopo le dichiarazioni degli stati
   useEffect(() => {
@@ -299,12 +297,6 @@ export default function Home() {
     setIsPressing(true);
     setAudioPlayed(false); // Reset dello stato dell'audio
 
-    // Aggiungi log di debug
-    setDebugLogs((prev) => [
-      ...prev,
-      `Press Event: ${e.type} at ${new Date().toLocaleTimeString()}`,
-    ]);
-
     // Riproduci l'audio immediatamente
     playAudio("clickIN", 0.5);
   };
@@ -313,12 +305,6 @@ export default function Home() {
   const handleRelease = async (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     setIsPressing(false);
-
-    // Aggiungi log di debug
-    setDebugLogs((prev) => [
-      ...prev,
-      `Release Event: ${e.type} at ${new Date().toLocaleTimeString()}`,
-    ]);
 
     // Riproduci clickOUT solo se clickIN è stato riprodotto
     if (!audioPlayed) {
@@ -824,15 +810,6 @@ export default function Home() {
       <audio src="/audio/button_out.mp3" id="clickOUT" preload="auto" />
       <audio src="/audio/fan_pc.mp3" id="fanPC" preload="auto" />
       <audio src="/audio/start_os.mp3" id="startOS" preload="auto" />
-
-      {/* <div className="fixed bottom-0 left-0 bg-black/80 text-white p-4 max-w-[300px] max-h-[200px] overflow-y-auto text-xs z-50">
-        <h3 className="font-bold mb-2">Debug Events:</h3>
-        {debugLogs.map((log, index) => (
-          <div key={index} className="mb-1">
-            {log}
-          </div>
-        ))}
-      </div> */}
     </>
   );
 }
