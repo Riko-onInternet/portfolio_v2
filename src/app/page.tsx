@@ -39,6 +39,7 @@ import { portfolioText } from "@/data/portfolio";
 import { unknownRemastered } from "@/data/unknown_remastered";
 import { unknown } from "@/data/unknown";
 import { rikoUI } from "@/data/riko_ui";
+import { projectT } from "@/data/project-t";
 
 // database projects
 const schoolProjects = [
@@ -100,15 +101,6 @@ const schoolProjects = [
 
 const continuedProject = [
   {
-    id: "unknown",
-    title: "unKnown",
-    linkGithub: "https://github.com/Riko-onInternet/unknown",
-    linkWebsite: "https://unknown-stream.vercel.app/",
-    icon: "/img/desktop/chrome.png",
-    idText: "text-unknown",
-    textValue: unknown,
-  },
-  {
     id: "unknown_remastered",
     title: "unKnown - Remastered",
     linkGithub: "https://github.com/Riko-onInternet/unknown-remastered",
@@ -128,7 +120,6 @@ export default function Home() {
   const [theme, setTheme] = useState<Theme>("mixed");
   const [wallpaper, setWallpaper] = useState<Wallpaper>("1");
 
-  // Aggiungi questa variabile di stato all'inizio del componente
   const [audioPlayed, setAudioPlayed] = useState(false);
 
   // Aggiungi questi stati all'inizio del componente
@@ -404,6 +395,13 @@ export default function Home() {
 
   return (
     <>
+      <div className="h-dvh w-dvw absolute z-50 inset-0 bg-black hidden bhdvbufgh">
+        <p className="text-center h-full flex justify-center items-center text-white">
+          Mi dispiace, ma devi utilizzare un dipositivo più grande per usufruire
+          del portfolio
+        </p>
+      </div>
+
       <div className="h-dvh w-dvw relative">
         {/* Sezione Avvio */}
         <div
@@ -490,128 +488,234 @@ export default function Home() {
 
         {/* Sezione Desktop */}
         <div
-          className={`w-full h-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat z-10`}
+          className={`w-full h-full absolute inset-0 bg-cover bg-center bg-no-repeat z-10`}
           style={{
             backgroundImage: `url(/img/wallpaper/wallpaper_${wallpaper}.jpg)`,
           }}
           id="section-desktop"
         >
           <div className="h-full w-full flex flex-col">
-            <div className="h-full w-full grid direction-grid grid-cols-4 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 grid-flow-col items-start justify-center p-4 sm:p-6">
-              {/* Progetti scolastici */}
-              <Icon
-                id="progetti_scolastici"
-                title="Progetti Scolastici"
-                srcIcon="/img/desktop/folder.png"
-                size={80}
-                className="text-white"
-              >
-                <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
-                  {/* Cartelle dei proggetti */}
-                  {schoolProjects.map((school, index) => (
-                    <Icon
-                      key={`${school.id}-${index}`}
-                      id={school.id}
-                      title={school.title}
-                      srcIcon="/img/desktop/folder.png"
-                      size={80}
-                      className="!text-[var(--dialog-text)] w-[80px]"
-                    >
-                      <div className="flex flex-row flex-wrap items-start gap-4">
-                        <a
-                          href={school.linkGithub}
-                          className="flex flex-col items-center justify-start w-[80px] text-center"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title="GitHub Link"
-                        >
-                          <FaGithub className="github-icon p-1" />
-
-                          <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
-                            GitHub Link
-                          </p>
-                        </a>
-                        <Browser
-                          id={school.title}
-                          title={school.title}
-                          srcBrowser={school.icon}
-                          defaultUrl={school.linkWebsite}
-                          size={80}
+            <div className="h-full w-full grid direction-grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-11 grid-flow-col items-start justify-center p-4 sm:p-6 gap-y-2">
+              {/* Impostazioni */}
+              <div className="col-start-1 col-span-1 row-start-6 row-span-1 flex justify-start items-end settings">
+                <Icon
+                  id="settings"
+                  title="Impostazioni"
+                  srcIcon="/img/desktop/settings.png"
+                  size={80}
+                  className="text-white"
+                >
+                  <div className="container mx-auto p-4 pt-0">
+                    <p className="text-[var(--dialog-text)] text-xl font-bold text-center mb-4">
+                      Impostazioni
+                    </p>
+                    <div className="flex flex-col items-center justify-center gap-4 w-full">
+                      {/* Skip intro */}
+                      <form
+                        className="flex items-center justify-between w-full bg-[var(--dialog-bg-secondary)] py-4 px-4 rounded-md cursor-pointer"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSkipIntro(!skipIntro);
+                        }}
+                      >
+                        <span className="text-[var(--dialog-text)] select-none">
+                          Salta introduzione
+                        </span>
+                        <Switch
+                          defaultSelected={skipIntro}
+                          // isSelected={skipIntro}
+                          onValueChange={setSkipIntro}
+                          aria-label="Salta introduzione"
                         />
-                        <Icon
-                          id={school.idText}
-                          title="readme.md"
-                          srcIcon="/img/desktop/file_text.png"
-                          size={80}
+                      </form>
+
+                      {/* Theme */}
+                      <div className="flex items-center justify-between w-full bg-[var(--dialog-bg-secondary)] py-4 px-4 rounded-md">
+                        <span className="text-[var(--dialog-text)] select-none">
+                          Tema
+                        </span>
+                        <Select
+                          className="w-1/3 colored-select"
+                          // defaultSelectedKeys={[theme]}
+                          selectedKeys={[theme]}
+                          selectionMode="single"
+                          disallowEmptySelection={true}
+                          onSelectionChange={(keys) => {
+                            const selectedTheme = Array.from(keys)[0] as Theme;
+                            setTheme(selectedTheme);
+                          }}
+                          color="default"
+                          radius="sm"
                         >
-                          <textarea
-                            defaultValue={school.textValue}
-                            placeholder="Scrivi qualcosa..."
-                            spellCheck={false}
-                            className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
-                          />
-                        </Icon>
+                          <SelectItem key="light">Light</SelectItem>
+                          <SelectItem key="dark">Dark</SelectItem>
+                          <SelectItem key="system">System</SelectItem>
+                          <SelectItem key="mixed">Mixed</SelectItem>
+                        </Select>
                       </div>
-                    </Icon>
-                  ))}
-                </div>
-              </Icon>
+
+                      <div className="flex flex-col items-center justify-center w-full bg-[var(--dialog-bg-secondary)] py-4 px-4 rounded-md">
+                        <p className="text-[var(--dialog-text)] text-xl font-bold text-center mb-4">
+                          Sfondi
+                        </p>
+                        <div className="flex justify-between items-center w-full gap-2">
+                          {["1", "2", "3"].map((num) => (
+                            <button
+                              key={num}
+                              onClick={() => setWallpaper(num as Wallpaper)}
+                              className={`relative w-full aspect-video rounded-md overflow-hidden border-2 ${
+                                wallpaper === num
+                                  ? "border-blue-500"
+                                  : "border-transparent"
+                              }`}
+                            >
+                              <div className="min-w-[172px] min-h-[100px]">
+                                <Image
+                                  src={`/img/wallpaper/wallpaper_${num}.jpg`}
+                                  alt={`Sfondo ${num}`}
+                                  fill
+                                />
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Icon>
+              </div>
+
+              {/* Progetti scolastici */}
+              <div className="col-start-11 col-span-1 row-start-1 row-span-1 flex justify-end items-end">
+                <Icon
+                  id="progetti_scolastici"
+                  title="Progetti Scolastici"
+                  srcIcon="/img/desktop/folder.png"
+                  size={80}
+                  className="text-white"
+                >
+                  <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
+                    {/* Cartelle dei proggetti */}
+                    {schoolProjects.map((school, index) => (
+                      <Icon
+                        key={`${school.id}-${index}`}
+                        id={school.id}
+                        title={school.title}
+                        srcIcon="/img/desktop/folder.png"
+                        size={80}
+                        className="!text-[var(--dialog-text)] w-[80px]"
+                      >
+                        <div className="flex flex-row flex-wrap items-start gap-4">
+                          <a
+                            href={school.linkGithub}
+                            className="flex flex-col items-center justify-start w-[80px] text-center"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="GitHub Link"
+                          >
+                            <FaGithub className="github-icon p-1" />
+
+                            <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
+                              GitHub Link
+                            </p>
+                          </a>
+                          <Browser
+                            id={school.title}
+                            title={school.title}
+                            srcBrowser={school.icon}
+                            defaultUrl={school.linkWebsite}
+                            size={80}
+                          />
+                          <Icon
+                            id={school.idText}
+                            title="readme.md"
+                            srcIcon="/img/desktop/file_text.png"
+                            size={80}
+                          >
+                            <textarea
+                              defaultValue={school.textValue}
+                              placeholder="Scrivi qualcosa..."
+                              spellCheck={false}
+                              className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                            />
+                          </Icon>
+                        </div>
+                      </Icon>
+                    ))}
+                  </div>
+                </Icon>
+              </div>
 
               {/* Progetti in corso */}
-              <Icon
-                id="progetti_in_corso"
-                title="Progetti in corso"
-                srcIcon="/img/desktop/folder.png"
-                size={80}
-                className="text-white"
-              >
-                <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
-                  {continuedProject.map((soon) => (
-                    <Icon
-                      id={soon.id}
-                      title={soon.title}
-                      srcIcon="/img/desktop/folder.png"
-                      size={80}
-                      className="!text-[var(--dialog-text)] w-[80px]"
-                      key={soon.title}
-                    >
-                      <div className="flex flex-row flex-wrap items-start gap-4">
-                        <a
-                          href={soon.linkGithub}
-                          className="flex flex-col items-center justify-start w-[80px] text-center"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title="GitHub Link"
-                        >
-                          <FaGithub className="github-icon p-1" />
+              <div className="col-start-11 col-span-1 row-start-2 row-span-1 flex justify-end items-end">
+                <Icon
+                  id="progetti_in_corso"
+                  title="Progetti in corso"
+                  srcIcon="/img/desktop/folder.png"
+                  size={80}
+                  className="text-white"
+                >
+                  <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
+                    {continuedProject.map((soon) => (
+                      <Icon
+                        id={soon.id}
+                        title={soon.title}
+                        srcIcon="/img/desktop/folder.png"
+                        size={80}
+                        className="!text-[var(--dialog-text)] w-[80px]"
+                        key={soon.title}
+                      >
+                        <div className="flex flex-row flex-wrap items-start gap-4">
+                          <a
+                            href={soon.linkGithub}
+                            className="flex flex-col items-center justify-start w-[80px] text-center"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="GitHub Link"
+                          >
+                            <FaGithub className="github-icon p-1" />
 
-                          <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
-                            GitHub Link
-                          </p>
-                        </a>
-                        <Browser
-                          id={soon.id}
-                          title={soon.title}
-                          srcBrowser={soon.icon}
-                          defaultUrl={soon.linkWebsite}
-                          size={80}
-                        />
-                        <Icon
-                          id={soon.idText}
-                          title="readme.md"
-                          srcIcon="/img/desktop/file_text.png"
-                          size={80}
-                        >
-                          <textarea
-                            defaultValue={soon.textValue}
-                            placeholder="Scrivi qualcosa..."
-                            spellCheck={false}
-                            className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                            <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
+                              GitHub Link
+                            </p>
+                          </a>
+                          <Browser
+                            id={soon.id}
+                            title={soon.title}
+                            srcBrowser={soon.icon}
+                            defaultUrl={soon.linkWebsite}
+                            size={80}
                           />
-                        </Icon>
-                      </div>
-                    </Icon>
-                  ))}
+                          <Icon
+                            id={soon.idText}
+                            title="readme.md"
+                            srcIcon="/img/desktop/file_text.png"
+                            size={80}
+                          >
+                            <textarea
+                              defaultValue={soon.textValue}
+                              placeholder="Scrivi qualcosa..."
+                              spellCheck={false}
+                              className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                            />
+                          </Icon>
+                        </div>
+                      </Icon>
+                    ))}
+                  </div>
+                </Icon>
+              </div>
+
+              {/* Progetti futuri */}
+              <div className="col-start-11 col-span-1 row-start-3 row-span-1 flex justify-end items-end">
+                <Icon
+                  id="progetti_futuri"
+                  title="Progetti futuri"
+                  srcIcon="/img/desktop/folder.png"
+                  size={80}
+                  className="text-white"
+                >
+                  {/* Riko_UI */}
                   <Icon
                     id="riko_ui"
                     title="Riko_UI"
@@ -621,25 +725,25 @@ export default function Home() {
                   >
                     <div className="flex flex-row flex-wrap items-start gap-4">
                       {/* <a
-                        href=""
-                        className="flex flex-col items-center justify-start w-[80px] text-center"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="GitHub Link"
-                      >
-                        <FaGithub className="github-icon p-1" />
-
-                        <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
-                          GitHub Link
-                        </p>
-                      </a>
-                      <Browser
-                        id="riko_ui"
-                        title="Riko_UI"
-                        srcBrowser="/img/desktop/chrome.png"
-                        defaultUrl=""
-                        size={80}
-                      /> */}
+                          href=""
+                          className="flex flex-col items-center justify-start w-[80px] text-center"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="GitHub Link"
+                        >
+                          <FaGithub className="github-icon p-1" />
+  
+                          <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
+                            GitHub Link
+                          </p>
+                        </a>
+                        <Browser
+                          id="riko_ui"
+                          title="Riko_UI"
+                          srcBrowser="/img/desktop/chrome.png"
+                          defaultUrl=""
+                          size={80}
+                        /> */}
                       <Icon
                         id="text-riko_ui"
                         title="readme.md"
@@ -655,137 +759,124 @@ export default function Home() {
                       </Icon>
                     </div>
                   </Icon>
-                </div>
-              </Icon>
 
-              {/* Progetti conclusi */}
-              {/* <Icon
-                id="progetti_conclusi"
-                title="Progetti conclusi"
-                srcIcon="/img/desktop/folder.png"
-                size={80}
-              >
-                <p>Contenuto Progetti conclusi</p>
-              </Icon> */}
-
-              {/* Impostazioni */}
-              <Icon
-                id="settings"
-                title="Impostazioni"
-                srcIcon="/img/desktop/settings.png"
-                size={80}
-                className="text-white"
-              >
-                <div className="container mx-auto p-4 pt-0">
-                  <p className="text-[var(--dialog-text)] text-xl font-bold text-center mb-4">
-                    Impostazioni
-                  </p>
-                  <div className="flex flex-col items-center justify-center gap-4 w-full">
-                    {/* Skip intro */}
-                    <form
-                      className="flex items-center justify-between w-full bg-[var(--dialog-bg-secondary)] py-4 px-4 rounded-md cursor-pointer"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setSkipIntro(!skipIntro);
-                      }}
-                    >
-                      <span className="text-[var(--dialog-text)] select-none">
-                        Salta introduzione
-                      </span>
-                      <Switch
-                        defaultSelected={skipIntro}
-                        // isSelected={skipIntro}
-                        onValueChange={setSkipIntro}
-                        aria-label="Salta introduzione"
-                      />
-                    </form>
-
-                    {/* Theme */}
-                    <div className="flex items-center justify-between w-full bg-[var(--dialog-bg-secondary)] py-4 px-4 rounded-md">
-                      <span className="text-[var(--dialog-text)] select-none">
-                        Tema
-                      </span>
-                      <Select
-                        className="w-1/3 colored-select"
-                        // defaultSelectedKeys={[theme]}
-                        selectedKeys={[theme]}
-                        selectionMode="single"
-                        disallowEmptySelection={true}
-                        onSelectionChange={(keys) => {
-                          const selectedTheme = Array.from(keys)[0] as Theme;
-                          setTheme(selectedTheme);
-                        }}
-                        color="default"
-                        radius="sm"
+                  {/* Project-T */}
+                  <Icon
+                    id="project_t"
+                    title="Project-T"
+                    srcIcon="/img/desktop/folder.png"
+                    size={80}
+                    className="!text-[var(--dialog-text)] w-[80px]"
+                  >
+                    <div className="flex flex-row flex-wrap items-start gap-4">
+                      <Icon
+                        id="text-project_t"
+                        title="readme.md"
+                        srcIcon="/img/desktop/file_text.png"
+                        size={80}
                       >
-                        <SelectItem key="light">Light</SelectItem>
-                        <SelectItem key="dark">Dark</SelectItem>
-                        <SelectItem key="system">System</SelectItem>
-                        <SelectItem key="mixed">Mixed</SelectItem>
-                      </Select>
+                        <textarea
+                          defaultValue={projectT}
+                          placeholder="Scrivi qualcosa..."
+                          spellCheck={false}
+                          className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                        />
+                      </Icon>
                     </div>
+                  </Icon>
+                </Icon>
+              </div>
 
-                    <div className="flex flex-col items-center justify-center w-full bg-[var(--dialog-bg-secondary)] py-4 px-4 rounded-md">
-                      <p className="text-[var(--dialog-text)] text-xl font-bold text-center mb-4">
-                        Sfondi
-                      </p>
-                      <div className="flex justify-between items-center w-full gap-2">
-                        {["1", "2", "3"].map((num) => (
-                          <button
-                            key={num}
-                            onClick={() => setWallpaper(num as Wallpaper)}
-                            className={`relative w-full aspect-video rounded-md overflow-hidden border-2 ${
-                              wallpaper === num
-                                ? "border-blue-500"
-                                : "border-transparent"
-                            }`}
-                          >
-                            <div className="min-w-[172px] min-h-[100px]">
-                              <Image
-                                src={`/img/wallpaper/wallpaper_${num}.jpg`}
-                                alt={`Sfondo ${num}`}
-                                fill
-                              />
-                            </div>
-                          </button>
-                        ))}
-                      </div>
+              {/* Progetti archiviati */}
+              <div className="col-start-11 col-span-1 row-start-4 row-span-1 flex justify-end items-end">
+                <Icon
+                  id="progetti_archiviati"
+                  title="Progetti archiviati"
+                  srcIcon="/img/desktop/folder.png"
+                  size={80}
+                  className="text-white"
+                >
+                  <Icon
+                    id="unknown"
+                    title="unKnown"
+                    srcIcon="/img/desktop/folder.png"
+                    size={80}
+                    className="!text-[var(--dialog-text)] w-[80px]"
+                  >
+                    <div className="flex flex-row flex-wrap items-start gap-4">
+                      <a
+                        href="https://github.com/Riko-onInternet/unknown"
+                        className="flex flex-col items-center justify-start w-[80px] text-center"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="GitHub Link"
+                      >
+                        <FaGithub className="github-icon p-1" />
+
+                        <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
+                          GitHub Link
+                        </p>
+                      </a>
+                      <Browser
+                        id="unKnown"
+                        title="unKnown"
+                        srcBrowser="/img/desktop/chrome.png"
+                        defaultUrl="https://unknown-stream.vercel.app/"
+                        size={80}
+                      />
+                      <Icon
+                        id="unknown_text"
+                        title="readme.md"
+                        srcIcon="/img/desktop/file_text.png"
+                        size={80}
+                      >
+                        <textarea
+                          defaultValue={unknown}
+                          placeholder="Scrivi qualcosa..."
+                          spellCheck={false}
+                          className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                        />
+                      </Icon>
                     </div>
-                  </div>
-                </div>
-              </Icon>
+                  </Icon>
+                </Icon>
+              </div>
 
               {/* About me */}
-              <Icon
-                id="about_me"
-                title="about_me.txt"
-                srcIcon="/img/desktop/file_text.png"
-                size={80}
-                className="text-white"
-              >
-                <textarea
-                  defaultValue={aboutContent}
-                  placeholder="Scrivi qualcosa..."
-                  spellCheck={false}
-                  className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
-                />
-              </Icon>
+              <div className="col-start-1 col-span-1 row-start-1 row-span-1 flex justify-start items-end">
+                <Icon
+                  id="about_me"
+                  title="about_me.txt"
+                  srcIcon="/img/desktop/file_text.png"
+                  size={80}
+                  className="text-white"
+                >
+                  <textarea
+                    defaultValue={aboutContent}
+                    placeholder="Scrivi qualcosa..."
+                    spellCheck={false}
+                    className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                  />
+                </Icon>
+              </div>
 
               {/* Dettagli portfolio */}
-              <Icon
-                id="textPortfolio"
-                title="dettagli portfolio.txt"
-                srcIcon="/img/desktop/file_text.png"
-                size={80}
-                className="text-white"
-              >
-                <textarea
-                  defaultValue={portfolioText}
-                  placeholder="Scrivi qualcosa..."
-                  spellCheck={false}
-                  className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
-                />
-              </Icon>
+              <div className="col-start-1 col-span-1 row-start-2 row-span-1 flex justify-start items-end">
+                <Icon
+                  id="textPortfolio"
+                  title="dettagli portfolio.txt"
+                  srcIcon="/img/desktop/file_text.png"
+                  size={80}
+                  className="text-white"
+                >
+                  <textarea
+                    defaultValue={portfolioText}
+                    placeholder="Scrivi qualcosa..."
+                    spellCheck={false}
+                    className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                  />
+                </Icon>
+              </div>
             </div>
 
             {/* Barra dei menu */}
