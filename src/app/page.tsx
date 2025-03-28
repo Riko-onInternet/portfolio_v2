@@ -554,6 +554,7 @@ export default function Home() {
                         </Select>
                       </div>
 
+                      {/* Wallpaper */}
                       <div className="flex flex-col items-center justify-center w-full bg-[var(--dialog-bg-secondary)] py-4 px-4 rounded-md">
                         <p className="text-[var(--dialog-text)] text-xl font-bold text-center mb-4">
                           Sfondi
@@ -715,75 +716,77 @@ export default function Home() {
                   size={80}
                   className="text-white"
                 >
-                  {/* Riko_UI */}
-                  <Icon
-                    id="riko_ui"
-                    title="Riko_UI"
-                    srcIcon="/img/desktop/folder.png"
-                    size={80}
-                    className="!text-[var(--dialog-text)] w-[80px]"
-                  >
-                    <div className="flex flex-row flex-wrap items-start gap-4">
-                      {/* <a
-                          href=""
-                          className="flex flex-col items-center justify-start w-[80px] text-center"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title="GitHub Link"
-                        >
-                          <FaGithub className="github-icon p-1" />
-  
-                          <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
-                            GitHub Link
-                          </p>
-                        </a>
-                        <Browser
-                          id="riko_ui"
-                          title="Riko_UI"
-                          srcBrowser="/img/desktop/chrome.png"
-                          defaultUrl=""
+                  <div className="flex flex-wrap w-full items-start justify-start gap-4 text-[var(--dialog-text)]">
+                    {/* Riko_UI */}
+                    <Icon
+                      id="riko_ui"
+                      title="Riko_UI"
+                      srcIcon="/img/desktop/folder.png"
+                      size={80}
+                      className="!text-[var(--dialog-text)] w-[80px]"
+                    >
+                      <div className="flex flex-row flex-wrap items-start gap-4">
+                        {/* <a
+                            href=""
+                            className="flex flex-col items-center justify-start w-[80px] text-center"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="GitHub Link"
+                          >
+                            <FaGithub className="github-icon p-1" />
+    
+                            <p className="text-sm line-clamp-2 h-full text-[var(--dialog-text)]">
+                              GitHub Link
+                            </p>
+                          </a>
+                          <Browser
+                            id="riko_ui"
+                            title="Riko_UI"
+                            srcBrowser="/img/desktop/chrome.png"
+                            defaultUrl=""
+                            size={80}
+                          /> */}
+                        <Icon
+                          id="text-riko_ui"
+                          title="readme.md"
+                          srcIcon="/img/desktop/file_text.png"
                           size={80}
-                        /> */}
-                      <Icon
-                        id="text-riko_ui"
-                        title="readme.md"
-                        srcIcon="/img/desktop/file_text.png"
-                        size={80}
-                      >
-                        <textarea
-                          defaultValue={rikoUI}
-                          placeholder="Scrivi qualcosa..."
-                          spellCheck={false}
-                          className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
-                        />
-                      </Icon>
-                    </div>
-                  </Icon>
+                        >
+                          <textarea
+                            defaultValue={rikoUI}
+                            placeholder="Scrivi qualcosa..."
+                            spellCheck={false}
+                            className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                          />
+                        </Icon>
+                      </div>
+                    </Icon>
 
-                  {/* Project-T */}
-                  <Icon
-                    id="project_t"
-                    title="Project-T"
-                    srcIcon="/img/desktop/folder.png"
-                    size={80}
-                    className="!text-[var(--dialog-text)] w-[80px]"
-                  >
-                    <div className="flex flex-row flex-wrap items-start gap-4">
-                      <Icon
-                        id="text-project_t"
-                        title="readme.md"
-                        srcIcon="/img/desktop/file_text.png"
-                        size={80}
-                      >
-                        <textarea
-                          defaultValue={projectT}
-                          placeholder="Scrivi qualcosa..."
-                          spellCheck={false}
-                          className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
-                        />
-                      </Icon>
-                    </div>
-                  </Icon>
+                    {/* Project-T */}
+                    <Icon
+                      id="project_t"
+                      title="Project-T"
+                      srcIcon="/img/desktop/folder.png"
+                      size={80}
+                      className="!text-[var(--dialog-text)] w-[80px]"
+                    >
+                      <div className="flex flex-row flex-wrap items-start gap-4">
+                        <Icon
+                          id="text-project_t"
+                          title="readme.md"
+                          srcIcon="/img/desktop/file_text.png"
+                          size={80}
+                        >
+                          <textarea
+                            defaultValue={projectT}
+                            placeholder="Scrivi qualcosa..."
+                            spellCheck={false}
+                            className="w-full h-full text-[var(--dialog-text)] bg-transparent border-none outline-none resize-none text-sm"
+                          />
+                        </Icon>
+                      </div>
+                    </Icon>
+                  </div>
                 </Icon>
               </div>
 
